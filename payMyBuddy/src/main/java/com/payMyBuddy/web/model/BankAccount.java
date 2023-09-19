@@ -1,9 +1,11 @@
 package com.paymybuddy.web.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,10 +20,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class BankAccount {@Id
+@Table(name = "BankAccount")
+public class BankAccount {
+  @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private int id;
+
+  @Column(name = "userId")
   private int userId;
+
+  @Column(name = "bankName")
   private String bankName;
+
+  @Column(name = "iBAN")
   private int iBAN;
 }
