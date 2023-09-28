@@ -1,6 +1,5 @@
 package com.paymybuddy.web.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,4 +35,10 @@ public class User {
 
   @Column(name = "bankBalance")
   private Float bankBalance;
+
+  @Column(name = "mail")
+  private String mail;
+
+  @Column(name = "password")
+  private String password;
 }

@@ -17,15 +17,6 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    Identifier (
-        id INT PRIMARY KEY AUTO_INCREMENT,
-        userId INT,
-        mail VARCHAR(255),
-        password VARCHAR(50),
-        FOREIGN KEY (userId) REFERENCES User(id)
-    );
-
-CREATE TABLE
     Transaction (
         id INT PRIMARY KEY AUTO_INCREMENT,
         creditUserId INT,
@@ -42,5 +33,7 @@ CREATE TABLE
         id INT PRIMARY KEY AUTO_INCREMENT,
         firstName VARCHAR(30),
         lastName VARCHAR(30),
-        bankBalance FLOAT
+        bankBalance FLOAT,
+        mail VARCHAR(255),
+        password VARCHAR(50)
     );

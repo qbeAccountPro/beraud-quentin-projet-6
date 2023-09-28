@@ -2,31 +2,21 @@ INSERT INTO
     BankAccount (userId, bankName, iBAN)
 VALUES (
         1,
-        'Caisse d\'épargne', 
+        'Caisse d\'épargne',
         '123456789'
     ), (
         2,
         'Crédit agricolt',
         '987654321'
-    ), (3, 'Banque postale', '555555555');
-
-INSERT INTO Contact (user_1_Id, user_2_Id) VALUES (1,2), (1,3), (2,3);
-
-INSERT INTO
-    Identifier (userId, mail, password)
-VALUES (
-        1,
-        'john@example.com',
-        'motdepasse1'
-    ), (
-        2,
-        'jane@example.com',
-        'motdepasse2'
     ), (
         3,
-        'alice@example.com',
-        'motdepasse3'
+        'Banque postale',
+        '555555555'
     );
+
+INSERT INTO
+    Contact (user_1_Id, user_2_Id)
+VALUES (1, 2), (1, 3), (2, 3);
 
 INSERT INTO
     Transaction (
@@ -56,10 +46,32 @@ VALUES (
         '2023-09-20'
     );
 
+/* TODO : check password format or creation  */
+
 INSERT INTO
     User (
         firstName,
         lastName,
-        bankBalance
+        bankBalance,
+        mail,
+        password
     )
-VALUES ('John', 'Doe', 1000.75), ('Jane', 'Smith', 500.25), ('Alice', 'Johnson', 750.90);
+VALUES (
+        'John',
+        'Doe',
+        1000.75,
+        'john.doe@gmail.com',
+        ''
+    ), (
+        'Jane',
+        'Smith',
+        500.25,
+        'jane.smith@gmail.com',
+        ''
+    ), (
+        'Alice',
+        'Johnson',
+        750.90,
+        'alice.johnson@gmail.com',
+        ''
+    );

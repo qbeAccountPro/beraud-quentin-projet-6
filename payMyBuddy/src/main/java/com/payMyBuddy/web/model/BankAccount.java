@@ -27,7 +27,7 @@ public class BankAccount {
   @Column(name = "id")
   private int id;
 
-  @Column(name = "userId")
+  @Column(name = "userid")
   private int userId;
 
   @Column(name = "bankName")
