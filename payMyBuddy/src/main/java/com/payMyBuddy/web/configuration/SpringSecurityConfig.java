@@ -25,10 +25,11 @@ public class SpringSecurityConfig {
         .requestMatchers("/user").hasRole("USER")
         .anyRequest().authenticated()
         .and()
-        .formLogin()
-        .loginPage("/login")/* 
-        .and()
-        .oauth2Login() */;
+        .formLogin().loginPage("/login").defaultSuccessUrl("/AJOUTER REDIRECT URL PAGE de transfère", true).permitAll()
+    /*
+     * .and()
+     * .oauth2Login()
+     */;
 
     return http.build();
   }
