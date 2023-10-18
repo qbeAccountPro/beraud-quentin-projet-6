@@ -1,4 +1,13 @@
 CREATE TABLE
+    User (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        firstName VARCHAR(30),
+        lastName VARCHAR(30),
+        bankBalance FLOAT,
+        mail VARCHAR(255),
+        password VARCHAR(255)
+    );
+CREATE TABLE
     BankAccount (
         id INT PRIMARY KEY AUTO_INCREMENT,
         userId INT,
@@ -24,16 +33,7 @@ CREATE TABLE
         description VARCHAR(100),
         fare FLOAT,
         date DATE,
-        FOREIGN KEY (creditUserId) REFERENCES Utilisateur(id),
-        FOREIGN KEY (debitUserId) REFERENCES Utilisateur(id)
+        FOREIGN KEY (creditUserId) REFERENCES User(id),
+        FOREIGN KEY (debitUserId) REFERENCES User(id)
     );
 
-CREATE TABLE
-    User (
-        id INT PRIMARY KEY AUTO_INCREMENT,
-        firstName VARCHAR(30),
-        lastName VARCHAR(30),
-        bankBalance FLOAT,
-        mail VARCHAR(255),
-        password VARCHAR(50)
-    );

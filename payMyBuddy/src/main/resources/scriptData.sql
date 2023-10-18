@@ -1,3 +1,33 @@
+/* TODO : check password format or creation  */
+
+INSERT INTO
+    User (
+        firstName,
+        lastName,
+        bankBalance,
+        mail,
+        password
+    )
+VALUES (
+        'John',
+        'Doe',
+        1000.75,
+        'john.doe@gmail.com',
+        '$2a$10$67CkGABIjJIYPlXoBxPCrOOWKJSuHFZ9UDXlYDTjE2Zatg.9u2ShS'
+    ), (
+        'Jane',
+        'Smith',
+        500.25,
+        'jane.smith@gmail.com',
+        '$2a$10$lo5wgvUeoaJgM17DFJWjbuZZEPS4TmSyeJmvbPA8dxv4hqemsP0Z2'
+    ), (
+        'Alice',
+        'Johnson',
+        750.90,
+        'alice.johnson@gmail.com',
+        '$2a$10$J3P0bYDyg0iWCHZOadc2T.U4W6Db9/sSsvVTART1Wo2r1cTuIyp3C'
+    );
+
 INSERT INTO
     BankAccount (userId, bankName, iBAN)
 VALUES (
@@ -44,34 +74,4 @@ VALUES (
         'Réparation vélo',
         75.20,
         '2023-09-20'
-    );
-
-/* TODO : check password format or creation  */
-
-INSERT INTO
-    User (
-        firstName,
-        lastName,
-        bankBalance,
-        mail,
-        password
-    )
-VALUES (
-        'John',
-        'Doe',
-        1000.75,
-        'john.doe@gmail.com',
-        ''
-    ), (
-        'Jane',
-        'Smith',
-        500.25,
-        'jane.smith@gmail.com',
-        ''
-    ), (
-        'Alice',
-        'Johnson',
-        750.90,
-        'alice.johnson@gmail.com',
-        ''
     );

@@ -14,34 +14,27 @@
       background: linear-gradient(to right, #87c24b, #61b95a);
     }
 
-    .custom-bg-green {
-      background-color: rgb(92, 184, 92);
-      border-color: rgb(92, 184, 92);
+    /* Fond de base gris de boostrap différent de la maquette */
+    .bg-grey {
+      background-color: rgb(245, 245, 245);
     }
 
+    /* Impossibilité de varier certaine taille de texte via boostrap */
     .text-large {
-      font-size: 20px;
+      font-size: 20px !important;
     }
 
-    .text-small {
-      font-size: 7px;
-    }
-
-    .custom-py-40 {
-      padding-top: 20px;
-      padding-bottom: 20px;
-    }
-
-    /* CSS personnalisé pour la surbrillance bleue des liens*/
+    /* Surbrillance bleue foncée des liens */
     .navbar-nav .nav-item .nav-link:hover {
       color: blue !important;
     }
 
-    /* Supprimer le soulignement du premier mot du fil d'Arianne */
+    /* Supprimer le soulignement du premier mot du fil d'Arianne*/
     .breadcrumb-item:first-child a {
       text-decoration: none;
     }
 
+    /* Apparence spécifie un montant en €*/
     .none-roundedBorderRight {
       border-top-right-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
@@ -50,17 +43,17 @@
     .custom-increaseButton {
       font-size: auto !important;
       background-color: white;
-      border-color: rgb(220, 226, 230);
+      border-color: rgb(108, 117, 125);
       border-top-left-radius: 0px;
       border-bottom-right-radius: 0px;
       border-bottom-left-radius: 0px;
-      border-bottom: none;
     }
 
     .custom-decreaseButton {
+      transform: rotate(180deg);
       font-size: auto !important;
       background-color: white;
-      border-color: rgb(220, 226, 230);
+      border-color: rgb(108, 117, 125);
       border-top-right-radius: 0px;
       border-bottom-left-radius: 0px;
       border-bottom-right-radius: 0px;
@@ -68,20 +61,43 @@
 
     .custom-unit {
       background-color: white;
+      border-color: rgb(108, 117, 125);
       border-radius: 0px;
       border-left: none;
       border-right: none;
-
     }
 
-    .rotate-180 {
-      transform: rotate(180deg);
+    .custom-bg-green {
+      background-color: rgb(92, 184, 92);
+      border-color: rgb(92, 184, 92);
+      color: white;
     }
+
+    .custom-table {
+      text-align: center;
+    }
+
+    .custom-table th,
+    .custom-table td {
+      padding: 2.5rem;
+      vertical-align: middle;
+      font-weight: normal;
+    }
+
+
 
     @media (min-width: 768px) {
       .btn-large {
         padding-left: 80px;
         padding-right: 80px;
+      }
+
+      .custom-nav-table a {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        font-size: 20px ;
       }
     }
   </style>
@@ -120,7 +136,7 @@
                     <a class="nav-link" href="contact.html">Contact</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="logoff.html">Log off</a>
+                    <a class="nav-link" href="/logout">Log off</a>
                   </li>
                 </ul>
               </div>
@@ -129,7 +145,7 @@
         </div>
       </div>
       <!-- Barre suivi de naviguation -->
-      <div class="row bg-light my-1 pt-2">
+      <div class="row bg-grey my-1 pt-2">
         <nav class="ml-5 navbar text-large">
           <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="home.html">Home</a></li>
@@ -138,24 +154,24 @@
         </nav>
       </div>
   </header>
+
   <main class="w-75 mx-auto">
     <!-- Titre Send Money 
       &
       Bouton AddConnection -->
-    <div class="mt-3 row justify-content-between mb-2">
-      <div class="col-5 d-flex flex-column align-items-baseline">
+    <div class="mt-5 row justify-content-between mb-2">
+      <div class="col-5 d-flex flex-column align-items-baseline pt-3 ml-2">
         Send Money
       </div>
-      <div class="col-5 d-flex flex-column align-items-end">
+      <div class="col-5 d-flex flex-column align-items-end mr-2">
         <button type="submit" class="btn btn-primary text-large px-5">Add Connection</button>
       </div>
     </div>
     <!-- Select a connection and send amount -->
-    <div class="d-flex justify-content-around bg-light py-5">
+    <div class="d-flex justify-content-around bg-grey py-5">
       <!-- Select a connection -->
-      <div class="">
-        <select class="form-select py-auto h-100"
-          aria-label="Default select example">
+      <div>
+        <select class="form-select py-auto h-100 border-secondary" aria-label="Default select example">
           <option selected>Select a connection</option>
           <option value="1">One</option>
           <option value="2">Two</option>
@@ -163,35 +179,32 @@
         </select>
       </div>
       <!-- Select an ammount -->
-      <div class="my-auto">
-        <div class="d-flex">
-          <input type="text"
-            class="form-control text-center custom-py-40 input-group-prepend border-right-0 none-roundedBorderRight"
-            value="0" id="amount" aria-describedby="basic-addon2" pattern="^\d*\.?\d*$">
-          <div class="input-group-append">
-            <span class="custom-unit input-group-text " id="basic-addon2">€</span>
-          </div>
-          <div class="d-flex flex-column">
-            <button class="btn custom-increaseButton text-small" type="button" id="increment">^</button>
-            <button class="btn custom-decreaseButton rotate-180 text-small" type="button" id="decrement">^</button>
-          </div>
-
+      <div class="d-flex">
+        <input type="text"
+          class="form-control text-center input-group-prepend border-right-0 none-roundedBorderRight border-secondary h-100"
+          value="0" id="amount" aria-describedby="basic-addon2" pattern="^\d*\.?\d*$">
+        <div class="input-group-append">
+          <span class="custom-unit input-group-text " id="basic-addon2">€</span>
+        </div>
+        <div class="d-flex flex-column">
+          <button class="btn custom-increaseButton btn-sm" type="button" id="increment">^</button>
+          <button class="btn custom-decreaseButton btn-sm" type="button" id="decrement">^</button>
         </div>
       </div>
       <!-- Press the Pay button -->
-      <div class="my-auto h-100">
-        <button type="submit" class="btn btn-primary btn-large text-large custom-bg-green">Pay</button>
+      <div class="py-auto">
+        <button type="submit" class="btn btn-primary btn-large text-large custom-bg-green h-100">Pay</button>
       </div>
     </div>
-    <div class="row bg-light mt-5">Titre tableau
+    <div class="row mt-5 pl-2 py-2">My Transactions
     </div>
-    <div class="row bg-info">
-      <table class="table table-dark">
+    <div class="row border border-dark">
+      <table class="table-striped table-responsive-md my-auto custom-table">
         <thead>
-          <tr>
-            <th>Classe</th>
-            <th>Couleur</th>
-            <th>Couleur</th>
+          <tr class="custom-bg-green">
+            <th scope="col">Connections</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
           </tr>
         </thead>
         <tbody>
@@ -200,12 +213,12 @@
             <td>Une cellule</td>
             <td>Une cellule</td>
           </tr>
-          <tr class="bg-info">
+          <tr>
             <td>Active</td>
             <td>Une cellule</td>
             <td>Une cellule</td>
           </tr>
-          <tr class="bg-warning">
+          <tr>
             <td>Primary</td>
             <td>Une cellule</td>
             <td>Une cellule</td>
@@ -213,11 +226,31 @@
         </tbody>
       </table>
     </div>
+    <!-- Naviguation tableau -->
+    <div class="d-flex justify-content-center">
+      <nav class="custom-nav-table">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">4</a></li>
+          <li class="page-item"><a class="page-link" href="#">5</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </main>
-  <footer>
 
-  </footer>
+  <!-- Script Increase or decrease amount -->
   <script>
     document.getElementById('decrement').addEventListener('click', function () {
       var amountInput = document.getElementById('amount');
@@ -232,11 +265,40 @@
       amountInput.value = (currentValue + 1).toFixed(2);
     });
   </script>
+
+  <!-- Script switch on Table transaction To be completed-->
+  <script>
+    /* $(document).ready(function () {
+      var currentPage = 1;
+      var rowsPerPage = 3;
+      displayTableData(currentPage);
+      $('.page-link').on('click', function () {
+        var page = parseInt($(this).text());
+        if (!isNaN(page)) {
+          currentPage = page;
+          displayTableData(currentPage);
+        }
+      });
+      $('.page-link[aria-label="Previous"]').on('click', function () {
+        if (currentPage > 1) {
+          currentPage--;
+          displayTableData(currentPage);
+        }
+      });
+      $('.page-link[aria-label="Next"]').on('click', function () {
+        currentPage++;
+        displayTableData(currentPage);
+      });
+      function displayTableData(page) {
+        // Vous devrez remplacer cette partie avec la logique de votre tableau
+        // Ici, vous pouvez charger les données appropriées de manière asynchrone ou utiliser une liste de données déjà existante.
+        // Ensuite, mettez à jour votre tableau avec les données correspondantes.
+      }
+    }); */
+  </script>
 </body>
 
 </html>
-
-
 </body>
 
 </html>
