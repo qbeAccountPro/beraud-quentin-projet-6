@@ -7,34 +7,28 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
-  <!-- Ajout de Font Awesome (pour les icônes) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <style>
     .custom-gradient-bg {
       background: linear-gradient(to right, #87c24b, #61b95a);
     }
 
-    /* Fond de base gris de boostrap différent de la maquette */
     .bg-grey {
       background-color: rgb(245, 245, 245);
     }
 
-    /* Impossibilité de varier certaine taille de texte via boostrap */
     .text-large {
       font-size: 20px !important;
     }
 
-    /* Surbrillance bleue foncée des liens */
     .navbar-nav .nav-item .nav-link:hover {
       color: blue !important;
     }
 
-    /* Supprimer le soulignement du premier mot du fil d'Arianne*/
     .breadcrumb-item:first-child a {
       text-decoration: none;
     }
 
-    /* Apparence spécifie un montant en €*/
     .none-roundedBorderRight {
       border-top-right-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
@@ -84,7 +78,9 @@
       font-weight: normal;
     }
 
-
+    .popupsContainer {
+      background-color: black;
+    }
 
     @media (min-width: 768px) {
       .btn-large {
@@ -97,7 +93,7 @@
         padding-right: 2.5rem;
         padding-top: 2rem;
         padding-bottom: 2rem;
-        font-size: 20px ;
+        font-size: 20px;
       }
     }
   </style>
@@ -127,7 +123,7 @@
                     <a class="nav-link" href="home.html">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="transfert.html">Transfer</a>
+                    <a class="nav-link" href="transfer.html">Transfer</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="profile.html">Profile</a>
@@ -144,27 +140,27 @@
           </nav>
         </div>
       </div>
-      <!-- Barre suivi de naviguation -->
+      <!-- Barre suivi de naviguation OU fil d'ariane -->
       <div class="row bg-grey my-1 pt-2">
         <nav class="ml-5 navbar text-large">
           <ul class="breadcrumb">
             <li class="breadcrumb-item"><a href="home.html">Home</a></li>
-            <li class="breadcrumb-item active">transfert</li>
+            <li class="breadcrumb-item active">transfer</li>
           </ul>
         </nav>
       </div>
   </header>
 
   <main class="w-75 mx-auto">
-    <!-- Titre Send Money 
-      &
-      Bouton AddConnection -->
+    <!-- Titre Send Money & Bouton AddConnection -->
     <div class="mt-5 row justify-content-between mb-2">
       <div class="col-5 d-flex flex-column align-items-baseline pt-3 ml-2">
         Send Money
       </div>
       <div class="col-5 d-flex flex-column align-items-end mr-2">
-        <button type="submit" class="btn btn-primary text-large px-5">Add Connection</button>
+        <button class="btn btn-primary text-large px-5" data-bs-toggle="modal"
+          data-bs-target="#modal-add-connection">Add
+          Connection</button>
       </div>
     </div>
     <!-- Select a connection and send amount -->
@@ -173,9 +169,7 @@
       <div>
         <select class="form-select py-auto h-100 border-secondary" aria-label="Default select example">
           <option selected>Select a connection</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          <option th:each="contact : ${contacts}" th:value="${contact}" th:text="${contact}"></option>
         </select>
       </div>
       <!-- Select an ammount -->
@@ -191,15 +185,15 @@
           <button class="btn custom-decreaseButton btn-sm" type="button" id="decrement">^</button>
         </div>
       </div>
-      <!-- Press the Pay button -->
+      <!-- Pay button -->
       <div class="py-auto">
-        <button type="submit" class="btn btn-primary btn-large text-large custom-bg-green h-100">Pay</button>
+        <button type="submit" class="btn btn-primary btn-large text-large custom-bg-green h-100" data-bs-toggle="modal"
+          data-bs-target="#modal-pay">Pay</button>
       </div>
     </div>
     <div class="row mt-5 pl-2 py-2">My Transactions
-    </div>
-    <div class="row border border-dark">
-      <table class="table-striped table-responsive-md my-auto custom-table">
+      <!-- <div class="row border border-dark"> -->
+      <table class="table-striped table-responsive-md my-auto custom-table border border-dark">
         <thead>
           <tr class="custom-bg-green">
             <th scope="col">Connections</th>
@@ -208,49 +202,105 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Default</td>
-            <td>Une cellule</td>
-            <td>Une cellule</td>
-          </tr>
-          <tr>
-            <td>Active</td>
-            <td>Une cellule</td>
-            <td>Une cellule</td>
-          </tr>
-          <tr>
-            <td>Primary</td>
-            <td>Une cellule</td>
-            <td>Une cellule</td>
+          <!-- Iterate through the list of transactions -->
+          <tr th:each="transaction : ${transactions}">
+            <!-- Display the required attributes of each transaction -->
+            <td th:text="${transaction.creditUserId}"></td>
+            <td th:text="${transaction.description}"></td>
+            <td th:text="${transaction.fare}"></td>
           </tr>
         </tbody>
       </table>
-    </div>
-    <!-- Naviguation tableau -->
-    <div class="d-flex justify-content-center">
-      <nav class="custom-nav-table">
-        <ul class="pagination">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">4</a></li>
-          <li class="page-item"><a class="page-link" href="#">5</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
+      <!-- Naviguation tableau -->
+      <div class="d-flex justify-content-center">
+        <nav class="custom-nav-table">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">5</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
   </main>
 
-  <!-- Script Increase or decrease amount -->
+  <!-- modal Add a connection -->
+  <div class="modal fade" id="modal-add-connection" tabindex="-1" aria-labelledby="modal-title"
+    aria-hidden="${ariaHidden}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-title">Add a new connection</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label for="modal-email-add-connection" class="form-label">Please enter your buddy's email :</label>
+          <input type="text" class="form-control" id="modal-email-add-connection" name="modal-email"
+            placeholder="name.surname@example.com">
+        </div>
+        <!-- Gestion des erreurs -->
+        <div th:if="${param.error}" class="alert alert-error">
+          <p class="px-auto text-large d-flex flex-column align-items-center text-danger">Your friend is not
+            registered yet !</p>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- modal Pay -->
+  <div class="modal fade" id="modal-pay" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Transfer summary</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="modal-email-pay" class="form-label">Connection :</label>
+            <input type="text" class="form-control" id="modal-email-pay" disabled>
+          </div>
+          <div class="form-group">
+            <label for="modal-amount" class="form-label">Ammount :</label>
+            <input type="text" class="form-control" id="modal-amount" disabled>
+          </div>
+          <div class="form-group">
+            <label for="modal-description" class="form-label">Add a description :</label>
+            <input type="text" class="form-control" id="modal-description">
+          </div>
+          <div class="form-group">
+            <label for="modal-date" class="form-label">Date :</label>
+            <input type="text" class="form-control" id="modal-date" disabled>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Make the transfer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
   <script>
     document.getElementById('decrement').addEventListener('click', function () {
       var amountInput = document.getElementById('amount');
@@ -265,40 +315,8 @@
       amountInput.value = (currentValue + 1).toFixed(2);
     });
   </script>
-
-  <!-- Script switch on Table transaction To be completed-->
-  <script>
-    /* $(document).ready(function () {
-      var currentPage = 1;
-      var rowsPerPage = 3;
-      displayTableData(currentPage);
-      $('.page-link').on('click', function () {
-        var page = parseInt($(this).text());
-        if (!isNaN(page)) {
-          currentPage = page;
-          displayTableData(currentPage);
-        }
-      });
-      $('.page-link[aria-label="Previous"]').on('click', function () {
-        if (currentPage > 1) {
-          currentPage--;
-          displayTableData(currentPage);
-        }
-      });
-      $('.page-link[aria-label="Next"]').on('click', function () {
-        currentPage++;
-        displayTableData(currentPage);
-      });
-      function displayTableData(page) {
-        // Vous devrez remplacer cette partie avec la logique de votre tableau
-        // Ici, vous pouvez charger les données appropriées de manière asynchrone ou utiliser une liste de données déjà existante.
-        // Ensuite, mettez à jour votre tableau avec les données correspondantes.
-      }
-    }); */
-  </script>
 </body>
 
 </html>
-</body>
 
 </html>

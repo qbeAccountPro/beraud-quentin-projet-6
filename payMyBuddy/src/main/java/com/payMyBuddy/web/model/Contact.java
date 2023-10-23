@@ -2,8 +2,6 @@ package com.paymybuddy.web.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -23,13 +21,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "Contact")
 public class Contact {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private int id;
-
   @Column(name = "user_1_Id")
-  private int user_1_Id;
+  private int user_1_id;
 
+  @Id
   @Column(name = "user_2_Id")
-  private int user_2_Id;
+  private int user_2_id;
 }

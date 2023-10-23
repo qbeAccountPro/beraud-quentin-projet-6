@@ -29,10 +29,10 @@ public class Transaction {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "creditUserId")
+    @Column(name = "credit_user_id")
     private int creditUserId;
 
-    @Column(name = "debitUserId")
+    @Column(name = "debit_user_id")
     private int debitUserId;
 
     @Column(name = "description")

@@ -1,11 +1,13 @@
 package com.paymybuddy.web.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.web.model.Transaction;
+import com.paymybuddy.web.model.User;
 import com.paymybuddy.web.repository.TransactionRepository;
 
 /**
@@ -79,5 +81,9 @@ public class TransactionService {
     if (foundTransaction.isPresent()) {
       addTransaction(transaction);
     }
+  }
+
+  public List<Transaction> getAllTransactionForAnUser(User user) {
+    return transactionRepository.findTransactionByUserId(user.getId());
   }
 }

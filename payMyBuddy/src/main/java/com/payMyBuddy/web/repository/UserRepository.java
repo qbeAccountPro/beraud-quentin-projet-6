@@ -1,5 +1,7 @@
 package com.paymybuddy.web.repository;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +16,7 @@ import com.paymybuddy.web.model.User;
  */
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
-  //public User findByUsername(String username);
+  User getUserByFirstname(String firstName);
+
+  List<User> findAllByIdIn(List<Integer> ids);
 }

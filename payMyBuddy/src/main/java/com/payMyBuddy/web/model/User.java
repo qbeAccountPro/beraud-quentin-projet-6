@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Some javadoc.
+ * Some javadoc :
  * 
  * This class represents a user object in the system.
  * it is used to hold the properties of a database user.
@@ -28,13 +28,13 @@ public class User {
   private int id;
 
   @Column(name = "firstName")
-  private String firstName;
+  private String firstname;
 
   @Column(name = "lastName")
-  private String lastName;
+  private String lastname;
 
   @Column(name = "bankBalance")
-  private Float bankBalance;
+  private Float bankbalance;
 
   @Column(name = "mail")
   private String mail;

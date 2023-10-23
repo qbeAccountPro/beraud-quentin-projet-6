@@ -1,5 +1,6 @@
 package com.paymybuddy.web.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +80,13 @@ public class UserService {
     if (foundUser.isPresent()) {
       addUser(user);
     }
+  }
+
+  public User getUserByUsername(String username) {
+    return userRepository.getUserByFirstname(username);
+  }
+
+  public List<User> getUsersById(List<Integer> contactsId) {
+    return userRepository.findAllByIdIn(contactsId);
   }
 }

@@ -73,7 +73,6 @@
         </div>
         <div>
           <form th:action="@{/login}" method="post">
-
             <!-- Champ de nom d'utilisateur -->
             <div class="form-group d-flex flex-column align-content-center flex-wrap">
               <div class="input-group">
@@ -84,7 +83,7 @@
                 </div>
                 <input type="text" id="username" name="username"
                   class="form-control text-large mt-5 custon-padding-form-group border-left-0" placeholder="Email"
-                  autofocus>
+                  autofocus autocomplete="username">
               </div>
             </div>
             <!-- Champ de mot de passe -->
@@ -96,7 +95,8 @@
                   </span>
                 </div>
                 <input type="password" id="password" name="password"
-                  class="form-control text-large mt-5 custon-padding-form-group border-left-0" placeholder="Password">
+                  class="form-control text-large mt-5 custon-padding-form-group border-left-0" placeholder="Password"
+                  autocomplete="current-password">
               </div>
             </div>
             <!-- Gestion des erreurs -->
@@ -114,7 +114,7 @@
             <div class="d-flex flex-column align-content-center flex-wrap my-4">
               <button type="submit" class="btn btn-primary text-large px-5">Login</button>
             </div>
-            <!-- Or exemple -->
+            <!-- Or -->
             <div class="separator">
               <div class="left-border"></div>
               <p class="text-large"> or</p>

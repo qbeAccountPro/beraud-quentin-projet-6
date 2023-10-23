@@ -1,11 +1,14 @@
 package com.paymybuddy.web.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.web.model.Contact;
+import com.paymybuddy.web.model.User;
 import com.paymybuddy.web.repository.ContactRepository;
 
 /**
@@ -59,27 +62,24 @@ public class ContactService {
   /*
    * Some javadoc.
    * 
-   * Delete a Contact object by id.
+   * Get all contact for an specific user id.
    * 
-   * @param contact : Contact object to delete.
+   * @param idUser : it's the ID of the specific user.
    *
    */
-  public void deleteContact(Contact contact) {
-    contactRepository.deleteById(contact.getId());
+  public List<Integer> getAllContactIdForAnUser(User user) {
+    List<Contact> contacts = contactRepository.findContactByUserId(user.getId());
+    List<Integer> contactsId = new ArrayList<>();
+
+    for (Contact contact : contacts) {
+      if (contact.getUser_1_id() != user.getId()) {
+        contactsId.add(contact.getUser_1_id());
+      } else if (contact.getUser_2_id() != user.getId()) {
+        contactsId.add(contact.getUser_2_id());
+      }
+    }
+    return contactsId;
   }
 
-  /*
-   * Some javadoc.
-   * 
-   * Update a Contact object.
-   * 
-   * @param contact : Contact object to update.
-   *
-   */
-  public void updateContact(Contact contact) {
-    Optional<Contact> foundContact = contactRepository.findById(contact.getId());
-    if (foundContact.isPresent()) {
-      addContact(contact);
-    }
-  }
+  
 }
