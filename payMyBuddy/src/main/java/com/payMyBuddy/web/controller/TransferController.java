@@ -1,6 +1,7 @@
 package com.paymybuddy.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,8 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.paymybuddy.web.model.Transaction;
 import com.paymybuddy.web.model.User;
@@ -18,11 +20,11 @@ import com.paymybuddy.web.service.TransactionService;
 import com.paymybuddy.web.service.UserService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/transfer")
 public class TransferController {
 
   @Autowired
@@ -34,10 +36,8 @@ public class TransferController {
   @Autowired
   TransactionService transactionService;
 
-  private List<String> authorizedEmails = Arrays.asList("email1@example.com", "email2@example.com");
-
-  @GetMapping("/transfer")
-  void login(Model model) {
+  @GetMapping("")
+  void getTransfer(Model model) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication.getPrincipal() instanceof UserDetails) {
       UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -59,16 +59,25 @@ public class TransferController {
     }
   }
 
-  @PostMapping("/addConnection")
-  public String addConnection(@RequestParam("modal-email") String email, RedirectAttributes redirectAttributes) {
+  @RequestMapping("/addConnection")
+  @ResponseBody
+  public ResponseEntity<String> checkEmail(@RequestParam("email") String email, Model model) {
 
-    if (authorizedEmails.contains(email)) {
-      System.out.println("Contact ajouté");
-      return "redirect:/1";
+    boolean emailExists = true; // TODO
+    boolean emailIsNotFromUser = true; // TODO
+    Boolean emailIsNotFromContact = true; // TODO
+    if (!emailExists) {
+      System.out.println("1");
+      return ResponseEntity.ok("wrongNotExists");
+    } else if (!emailIsNotFromUser) {
+      System.out.println("12");
+      return ResponseEntity.ok("wrongUserEmail");
+    } else if (!emailIsNotFromContact) {
+      System.out.println("123");
+      return ResponseEntity.ok("wrongContactEmail");
     } else {
-      redirectAttributes.addAttribute("error", true);
-      System.out.println("Contact introuvable");
-      return "redirect:/2";
+      System.out.println("1234");
+      return ResponseEntity.ok("exists");
     }
   }
 }

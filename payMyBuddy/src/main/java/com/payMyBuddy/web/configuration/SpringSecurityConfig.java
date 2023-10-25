@@ -24,16 +24,17 @@ public class SpringSecurityConfig {
     auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
         .dataSource(dataSource)
         .usersByUsernameQuery("SELECT firstName, password, 'true' FROM User WHERE firstName=?")
-        .authoritiesByUsernameQuery("SELECT firstName, 'ROLE_USER' FROM User WHERE firstName=?");
+        .authoritiesByUsernameQuery("SELECT firstName, 'true' FROM User WHERE firstName=?");
   }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(auth -> {
-      auth.anyRequest().authenticated();
+      auth.requestMatchers("/transfer/addConnection").permitAll().anyRequest().authenticated();
     }).logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll()
         .and().oauth2Login().loginPage("/login").defaultSuccessUrl("/transfer", true).failureUrl("/login?error=true")
-        .and().formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/transfer", true).permitAll());
+        .and().formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/transfer", true).permitAll()).csrf()
+        .disable().cors(); // TODO voir avec réda le csrf().disable().cors() qui empeche l'erreure 403 forbiden impossible sans comment faire ? méthode en attendant.
 
     return http.build();
   }

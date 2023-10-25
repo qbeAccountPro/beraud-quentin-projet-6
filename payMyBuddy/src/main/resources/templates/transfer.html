@@ -97,6 +97,13 @@
       }
     }
   </style>
+  <!-- Inclure jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Inclure Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
 </head>
 
 <body class="bg-white text-large">
@@ -236,31 +243,29 @@
   </main>
 
   <!-- modal Add a connection -->
-  <div class="modal fade" id="modal-add-connection" tabindex="-1" aria-labelledby="modal-title"
-    aria-hidden="${ariaHidden}">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modal-title">Add a new connection</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <label for="modal-email-add-connection" class="form-label">Please enter your buddy's email :</label>
-          <input type="text" class="form-control" id="modal-email-add-connection" name="modal-email"
-            placeholder="name.surname@example.com">
-        </div>
-        <!-- Gestion des erreurs -->
-        <div th:if="${param.error}" class="alert alert-error">
-          <p class="px-auto text-large d-flex flex-column align-items-center text-danger">Your friend is not
-            registered yet !</p>
-        </div>
+<div class="modal fade" id="modal-add-connection" tabindex="-1" aria-labelledby="modal-title" aria-hidden="${ariaHidden}">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">Add a new connection</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="modal-email-add-connection" class="form-label">Please enter your buddy's email :</label>
+        <input type="text" class="form-control" id="modal-email-add-connection" name="modal-email"
+          placeholder="name.surname@example.com">
+      </div>
 
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
+      <div id="text-modal-add-connection" class="alert alert-danger" role="alert" style="display: none;">
+        <!-- Messages d'erreur -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="submit-button">Submit</button>
       </div>
     </div>
   </div>
+</div>
+
 
   <!-- modal Pay -->
   <div class="modal fade" id="modal-pay" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
@@ -298,9 +303,7 @@
 
 
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-    crossorigin="anonymous"></script>
+
   <script>
     document.getElementById('decrement').addEventListener('click', function () {
       var amountInput = document.getElementById('amount');
@@ -313,6 +316,40 @@
       var amountInput = document.getElementById('amount');
       var currentValue = parseFloat(amountInput.value);
       amountInput.value = (currentValue + 1).toFixed(2);
+    });
+
+
+    
+    $(document).ready(function () {
+      $('#modal-add-connection').on('hidden.bs.modal', function (e) {
+      $('#modal-email-add-connection').val(''); // Réinitialise la valeur de l'entrée de l'e-mail
+      $('#text-modal-add-connection').hide(); // Cache le message d'erreur
+    });
+
+      $("#submit-button").click(function (event) {
+        var email = $("#modal-email-add-connection").val();
+        console.log(email);
+
+        $.ajax({
+          type: "POST",
+          url: "/transfer/addConnection",
+          data: { email: email },
+          success: function (response) {
+            if (response === "wrongNotExists") {
+              $("#text-modal-add-connection").text("This email does not exist!").show();
+            } else if (response === "wrongUserEmail") {
+              $("#text-modal-add-connection").text("This email belongs to the current user!").show();
+            } else if (response === "wrongContactEmail") {
+              $("#text-modal-add-connection").text("This email is already in your contacts!").show();
+            } else if (response === "exists") {
+              $("#text-modal-add-connection").text("Success message here").show().css('background-color', 'rgb(92, 184, 92)').css('color', 'white');
+              //$('#modal-add-connection').modal('hide'); // Ferme le modal en cas de succès
+            } else {
+              $("#text-modal-add-connection").text("An unknown error occurred.").show();
+            }
+          }
+        });
+      });
     });
   </script>
 </body>
