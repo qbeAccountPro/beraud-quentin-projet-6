@@ -7,6 +7,7 @@ CREATE TABLE
         mail VARCHAR(255),
         password VARCHAR(255)
     );
+
 CREATE TABLE
     BankAccount (
         id INT PRIMARY KEY AUTO_INCREMENT,
@@ -18,12 +19,13 @@ CREATE TABLE
 
 CREATE TABLE
     Contact (
-        user_1_Id INT,
-        user_2_Id INT,
-        PRIMARY KEY (user_1_Id, user_2_Id),
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_1_Id INT NOT NULL,
+        user_2_Id INT NOT NULL,
         FOREIGN KEY (user_1_Id) REFERENCES User(id),
         FOREIGN KEY (user_2_Id) REFERENCES User(id)
     );
+
 
 CREATE TABLE
     Transaction (
@@ -36,4 +38,3 @@ CREATE TABLE
         FOREIGN KEY (creditUserId) REFERENCES User(id),
         FOREIGN KEY (debitUserId) REFERENCES User(id)
     );
-

@@ -8,18 +8,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.paymybuddy.web.model.Contact;
 import com.paymybuddy.web.model.Transaction;
 import com.paymybuddy.web.model.User;
 import com.paymybuddy.web.service.ContactService;
 import com.paymybuddy.web.service.TransactionService;
 import com.paymybuddy.web.service.UserService;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,48 +39,91 @@ public class TransferController {
   @Autowired
   TransactionService transactionService;
 
-  @GetMapping("")
-  void getTransfer(Model model) {
+  public User getCurrentUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication.getPrincipal() instanceof UserDetails) {
-      UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-      String username = userDetails.getUsername();
-      User user = userService.getUserByUsername(username);
+    UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    String mail = userDetails.getUsername();
+    return userService.getUserByMail(mail);
+  }
 
-      // Get all connection/contact from logged in user
-      List<Integer> contactsId = contactService.getAllContactIdForAnUser(user);
-      List<User> userContacts = userService.getUsersById(contactsId);
-      List<String> contactsMail = userContacts.stream()
-          .map(User::getMail)
-          .collect(Collectors.toList());
-      model.addAttribute("contacts", contactsMail);
+  @GetMapping("")
+  void loadTranfer(Model model) { // TODO AFFICHER LE SOLDE
+    User user = getCurrentUser();
+    model.addAttribute("contacts", getContactMails(user));
+    model.addAttribute("transactions", transactionService.getAllTransactionForAnUser(user));
+  }
 
-      // Get all Transactions from logged in user
-      List<Transaction> transactions = new ArrayList<>();
-      transactions = transactionService.getAllTransactionForAnUser(user);
-      model.addAttribute("transactions", transactions);
+  @ResponseBody
+  @RequestMapping("/addConnection")
+  public ResponseEntity<String> checkEmail(@RequestParam("mail") String mail, Model model) {
+    if (mail.isEmpty()) {
+      return ResponseEntity.ok("mail-empty");
+    }
+    User contactUser = userService.getUserByMail(mail);
+    if (contactUser == null) {
+      return ResponseEntity.ok("mail-nonexistent");
+    }
+    User currentUser = getCurrentUser();
+    String mailCurrentUser = currentUser.getMail();
+    if (mailCurrentUser.equals(mail)) {
+      return ResponseEntity.ok("mail-FromCurrentUser");
+    }
+    List<Integer> userContacts = contactService.getAllContactIdForAnUser(currentUser);
+    Boolean emailFromContact = userContacts.contains(contactUser.getId());
+
+    if (emailFromContact) {
+      return ResponseEntity.ok("mail-FromContactList");
+    } else {
+      Contact newContact = new Contact();
+      newContact.setUser_1_id(currentUser.getId());
+      newContact.setUser_2_id(contactUser.getId());
+      contactService.addContact(newContact);
+
+      model.addAttribute("contacts", getContactMails(currentUser));
+      return ResponseEntity.ok("mail-Added");
     }
   }
 
-  @RequestMapping("/addConnection")
-  @ResponseBody
-  public ResponseEntity<String> checkEmail(@RequestParam("email") String email, Model model) {
+  List<String> getContactMails(User user) {
+    List<User> userContacts = userService.getListUserById(contactService.getAllContactIdForAnUser(user));
+    return userContacts.stream()
+        .map(User::getMail)
+        .collect(Collectors.toList());
+  }
 
-    boolean emailExists = true; // TODO
-    boolean emailIsNotFromUser = true; // TODO
-    Boolean emailIsNotFromContact = true; // TODO
-    if (!emailExists) {
-      System.out.println("1");
-      return ResponseEntity.ok("wrongNotExists");
-    } else if (!emailIsNotFromUser) {
-      System.out.println("12");
-      return ResponseEntity.ok("wrongUserEmail");
-    } else if (!emailIsNotFromContact) {
-      System.out.println("123");
-      return ResponseEntity.ok("wrongContactEmail");
+  @ResponseBody
+  @RequestMapping("/pay")
+  public ResponseEntity<String> payUrBuddy(@RequestParam("date") String dateString,
+      @RequestParam("amount") String amountString,
+      @RequestParam("connection") String connection, @RequestParam("description") String description, Model model)
+      throws ParseException {
+
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date date = format.parse(dateString);
+
+    User currentUser = getCurrentUser();
+    User creditUser = userService.getUserByMail(connection);
+
+    BigDecimal bankBalance = currentUser.getBankbalance();
+    BigDecimal applicationMonetization = new BigDecimal(0.05);
+    BigDecimal amount = new BigDecimal(amountString);
+    BigDecimal finalAmount = amount.add(amount.multiply(applicationMonetization));
+
+    if (bankBalance.compareTo(finalAmount) < 0) {
+      // TODO AJOUTER AU MOINS LE DETAIL DE PK LE MONTANT EST INNSUFISANT dans la vue 
+      return ResponseEntity.ok("bankBalanceInsufficient");
     } else {
-      System.out.println("1234");
-      return ResponseEntity.ok("exists");
+      Transaction transaction = new Transaction();
+      transaction.setDate(date);
+      transaction.setDebitUserId(currentUser.getId());
+      transaction.setCreditUserId(creditUser.getId());
+      transaction.setDescription(description);
+      transaction.setFare(amount);
+
+      // TODO VOIR SI ERREURE OU CRASH COMMENT ROLL BACK
+      userService.makeATransaction(transaction);
+      transactionService.addTransaction(transaction);
+      return ResponseEntity.ok("payDone");
     }
   }
 }

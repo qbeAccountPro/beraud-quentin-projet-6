@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.math.BigDecimal;
 
 /**
  * Some javadoc.
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Transaction")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
@@ -39,7 +40,7 @@ public class Transaction {
     private String description;
 
     @Column(name = "fare")
-    private Float fare;
+    private BigDecimal fare;
 
     @Column(name = "date")
     private Date date;

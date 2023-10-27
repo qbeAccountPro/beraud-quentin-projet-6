@@ -23,18 +23,31 @@ public class SpringSecurityConfig {
   public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
     auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
         .dataSource(dataSource)
-        .usersByUsernameQuery("SELECT firstName, password, 'true' FROM User WHERE firstName=?")
-        .authoritiesByUsernameQuery("SELECT firstName, 'true' FROM User WHERE firstName=?");
+        .usersByUsernameQuery("SELECT mail, password, 'true' FROM User WHERE mail=?")
+        .authoritiesByUsernameQuery("SELECT mail, 'true' FROM User WHERE mail=?");
   }
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(auth -> {
-      auth.requestMatchers("/transfer/addConnection").permitAll().anyRequest().authenticated();
-    }).logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll()
-        .and().oauth2Login().loginPage("/login").defaultSuccessUrl("/transfer", true).failureUrl("/login?error=true")
-        .and().formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/transfer", true).permitAll()).csrf()
-        .disable().cors(); // TODO voir avec réda le csrf().disable().cors() qui empeche l'erreure 403 forbiden impossible sans comment faire ? méthode en attendant.
+      auth.requestMatchers("/transfer/addConnection").permitAll();
+      auth.anyRequest().authenticated();
+     
+      
+    }).logout()
+        .logoutUrl("/logout")
+        .logoutSuccessUrl("/login?logout")
+        .permitAll()
+        .and()
+        .oauth2Login()
+        .loginPage("/login")
+        .defaultSuccessUrl("/transfer", true)
+        .failureUrl("/login?error=true")
+        .and()
+        .formLogin(form -> form.loginPage("/login")
+            .usernameParameter("email")
+            .defaultSuccessUrl("/transfer", true)
+            .permitAll()); 
 
     return http.build();
   }

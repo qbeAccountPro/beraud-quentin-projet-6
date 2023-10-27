@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.paymybuddy.web.model.Transaction;
 import com.paymybuddy.web.model.User;
 import com.paymybuddy.web.repository.UserRepository;
 
@@ -86,7 +87,21 @@ public class UserService {
     return userRepository.getUserByFirstname(username);
   }
 
-  public List<User> getUsersById(List<Integer> contactsId) {
+  public List<User> getListUserById(List<Integer> contactsId) {
     return userRepository.findAllByIdIn(contactsId);
+  }
+
+  public User getUserByMail(String mail) {
+    return userRepository.findUserByMail(mail);
+  }
+
+  public void makeATransaction(Transaction transaction) {
+    User debitUser = getUserById(transaction.getDebitUserId()).get();
+    User creditUser = getUserById(transaction.getDebitUserId()).get();
+
+    debitUser.setBankbalance(null);
+    
+
+    // TODO CODER MAKE A TRANSACTION
   }
 }

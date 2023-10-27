@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "BankAccount")
 public class BankAccount {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
   private int id;
 

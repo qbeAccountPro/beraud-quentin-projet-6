@@ -69,17 +69,15 @@ public class ContactService {
    */
   public List<Integer> getAllContactIdForAnUser(User user) {
     List<Contact> contacts = contactRepository.findContactByUserId(user.getId());
-    List<Integer> contactsId = new ArrayList<>();
+    List<Integer> listIdContacts = new ArrayList<>();
 
     for (Contact contact : contacts) {
       if (contact.getUser_1_id() != user.getId()) {
-        contactsId.add(contact.getUser_1_id());
+        listIdContacts.add(contact.getUser_1_id());
       } else if (contact.getUser_2_id() != user.getId()) {
-        contactsId.add(contact.getUser_2_id());
+        listIdContacts.add(contact.getUser_2_id());
       }
     }
-    return contactsId;
+    return listIdContacts;
   }
-
-  
 }

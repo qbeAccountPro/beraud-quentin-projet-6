@@ -1,5 +1,7 @@
 package com.paymybuddy.web.model;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,10 +22,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "User")
+@Table(name = "user")
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
   private int id;
 
@@ -34,7 +36,7 @@ public class User {
   private String lastname;
 
   @Column(name = "bankBalance")
-  private Float bankbalance;
+  private BigDecimal bankbalance;
 
   @Column(name = "mail")
   private String mail;
