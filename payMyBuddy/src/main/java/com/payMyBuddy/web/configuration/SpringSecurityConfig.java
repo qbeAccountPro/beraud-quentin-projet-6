@@ -30,10 +30,10 @@ public class SpringSecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(auth -> {
-      auth.requestMatchers("/transfer/addConnection").permitAll();
+      auth.requestMatchers("transfer/**").permitAll();
+      auth.requestMatchers("/css/**", "/js/**").permitAll();
       auth.anyRequest().authenticated();
-     
-      
+
     }).logout()
         .logoutUrl("/logout")
         .logoutSuccessUrl("/login?logout")
@@ -44,10 +44,12 @@ public class SpringSecurityConfig {
         .defaultSuccessUrl("/transfer", true)
         .failureUrl("/login?error=true")
         .and()
+        .httpBasic()
+        .and()
         .formLogin(form -> form.loginPage("/login")
             .usernameParameter("email")
             .defaultSuccessUrl("/transfer", true)
-            .permitAll()); 
+            .permitAll());
 
     return http.build();
   }

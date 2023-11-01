@@ -2,64 +2,15 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
   <title>Pay My Buddy</title>
+  <!-- METADA -->
+  <meta charset="UTF-8">
+  <!-- CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
-  <!-- Ajout de Font Awesome (pour les icônes) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <style>
-    .custom-gradient-bg {
-      background: linear-gradient(to right, #87c24b, #61b95a);
-    }
-
-    .text-large {
-      font-size: 20px;
-    }
-
-    .mt-80 {
-      margin-top: 80px;
-    }
-
-    .custom-checkbox {
-      width: 20px;
-      height: 20px;
-    }
-
-    .custon-padding-form-group {
-      padding-top: 25px;
-      padding-bottom: 25px;
-    }
-
-    .max-width-container {
-      max-width: 400px;
-    }
-
-    /* Styles personnalisés pour les icônes */
-    .input-group .input-group-text .input-group-prepend i {
-      font-size: 18px;
-      /* Taille de police personnalisée */
-      border-right: none;
-      /* Supprime la bordure de droite */
-      background-color: transparent;
-      /* Fond transparent */
-    }
-
-    .separator {
-      display: flex;
-      align-items: center;
-      margin: 20px 0;
-    }
-
-    .left-border,
-    .right-border {
-      flex: 1;
-      border-top: 1px solid black;
-      height: 0;
-      margin: 0 10px;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="/css/login.css" th:href="@{/css/login.css}" />
 </head>
 
 <body class="bg-light">
@@ -73,7 +24,7 @@
         </div>
         <div>
           <form th:action="@{/login}" method="post">
-            <!-- Champ de nom d'utilisateur -->
+            <!-- Username field -->
             <div class="form-group d-flex flex-column align-content-center flex-wrap">
               <div class="input-group">
                 <div class="input-group-prepend mt-5">
@@ -86,7 +37,7 @@
                   autofocus autocomplete="mail">
               </div>
             </div>
-            <!-- Champ de mot de passe -->
+            <!-- Password field -->
             <div class="form-group  d-flex flex-column align-content-center flex-wrap">
               <div class="input-group">
                 <div class="input-group-prepend mt-5 ">
@@ -99,18 +50,18 @@
                   autocomplete="current-password">
               </div>
             </div>
-            <!-- Gestion des erreurs -->
+            <!-- Error management -->
             <div th:if="${param.error}" class="alert alert-error">
               <p class="px-auto text-large d-flex flex-column align-items-center text-danger">Wrong identifier pair</p>
             </div>
-            <!-- Case à cocher "Remember Me" -->
+            <!-- “Remember Me” checkbox -->
             <div class="d-flex justify-content-center align-items-center">
               <div class="form-check form-control-lg mt-2">
                 <input type="checkbox" class="form-check-input custom-checkbox" id="remember-me" name="remember-me">
                 <label class="form-check-label text-large ml-1" for="remember-me">Remember me</label>
               </div>
             </div>
-            <!-- Bouton de connexion -->
+            <!-- Login button -->
             <div class="d-flex flex-column align-content-center flex-wrap my-4">
               <button type="submit" class="btn btn-primary text-large px-5">Login</button>
             </div>
@@ -120,11 +71,11 @@
               <p class="text-large"> or</p>
               <div class="right-border"></div>
             </div>
-            <!-- Oauth2 connexion Google-->
+            <!-- Oauth2 Login Google-->
             <div class="d-flex flex-column align-content-center flex-wrap my-4">
               <a th:href="@{/oauth2/authorization/google}" class="btn btn-primary text-large px-5">Login with Google</a>
             </div>
-            <!-- Oauth2 connexion GitHub-->
+            <!-- Oauth2 Login GitHub-->
             <div class="d-flex flex-column align-content-center flex-wrap my-4">
               <a th:href="@{/oauth2/authorization/github}" class="btn btn-primary text-large px-5">Login with GitHub</a>
             </div>
