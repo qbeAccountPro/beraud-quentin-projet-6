@@ -20,7 +20,10 @@ import com.paymybuddy.web.service.ContactService;
 import com.paymybuddy.web.service.TransactionService;
 import com.paymybuddy.web.service.UserService;
 
+import jakarta.transaction.Transactional;
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,7 +49,8 @@ public class TransferController {
       UserDetails userDetails = (UserDetails) authentication.getPrincipal();
       String mail = userDetails.getUsername();
       return userService.getUserByMail(mail);
-    } else return null;
+    } else
+      return null;
 
   }
 
@@ -79,8 +83,8 @@ public class TransferController {
       return ResponseEntity.ok("mail-FromContactList");
     } else {
       Contact newContact = new Contact();
-      newContact.setUser_1_id(currentUser.getId());
-      newContact.setUser_2_id(contactUser.getId());
+      newContact.setUser1Id(currentUser.getId());
+      newContact.setUser2Id(contactUser.getId());
       contactService.addContact(newContact);
 
       model.addAttribute("contacts", getContactMails(currentUser));
@@ -96,38 +100,48 @@ public class TransferController {
   }
 
   @ResponseBody
+  @Transactional
   @RequestMapping("/pay")
   public ResponseEntity<String> payUrBuddy(@RequestParam("date") String dateString,
       @RequestParam("amount") String amountString,
       @RequestParam("connection") String connection, @RequestParam("description") String description, Model model)
       throws ParseException {
+    try {
+      if (description.isEmpty()) {
+        return ResponseEntity.ok("emptyDescription");
+      } else {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = format.parse(dateString);
 
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    Date date = format.parse(dateString);
+        User currentUser = getCurrentUser();
+        User creditUser = userService.getUserByMail(connection);
 
-    User currentUser = getCurrentUser();
-    User creditUser = userService.getUserByMail(connection);
+        BigDecimal bankBalance = currentUser.getBankBalance();
+        BigDecimal applicationMonetization = new BigDecimal(0.05);
+        BigDecimal amount = new BigDecimal(amountString);
+        BigDecimal finalAmount = amount.add(amount.multiply(applicationMonetization));
+        finalAmount = finalAmount.setScale(2, RoundingMode.HALF_UP);
+        bankBalance = bankBalance.subtract(finalAmount);
 
-    BigDecimal bankBalance = currentUser.getBankbalance();
-    BigDecimal applicationMonetization = new BigDecimal(0.05);
-    BigDecimal amount = new BigDecimal(amountString);
-    BigDecimal finalAmount = amount.add(amount.multiply(applicationMonetization));
+        if (bankBalance.compareTo(BigDecimal.ZERO) < 0) {
+          // TODO AJOUTER AU MOINS LE DETAIL DE PK LE MONTANT EST INNSUFISANT dans la vue
+          return ResponseEntity.ok("bankBalanceInsufficient");
+        } else {
+          Transaction transaction = new Transaction();
+          transaction.setDate(date);
+          transaction.setDebitUserId(currentUser.getId());
+          transaction.setCreditUserId(creditUser.getId());
+          transaction.setDescription(description);
+          transaction.setFare(amount);
 
-    if (bankBalance.compareTo(finalAmount) < 0) {
-      // TODO AJOUTER AU MOINS LE DETAIL DE PK LE MONTANT EST INNSUFISANT dans la vue
-      return ResponseEntity.ok("bankBalanceInsufficient");
-    } else {
-      Transaction transaction = new Transaction();
-      transaction.setDate(date);
-      transaction.setDebitUserId(currentUser.getId());
-      transaction.setCreditUserId(creditUser.getId());
-      transaction.setDescription(description);
-      transaction.setFare(amount);
-
-      // TODO VOIR SI ERREURE OU CRASH COMMENT ROLL BACK
-      userService.makeATransaction(transaction);
-      transactionService.addTransaction(transaction);
-      return ResponseEntity.ok("payDone");
+          // TODO VOIR SI ERREURE OU CRASH COMMENT ROLL BACK
+          userService.makeTransaction(transaction);
+          transactionService.addTransaction(transaction);
+          return ResponseEntity.ok("payDone");
+        }
+      }
+    } catch (Exception e) {
+      return ResponseEntity.ok("errorException");
     }
   }
 }

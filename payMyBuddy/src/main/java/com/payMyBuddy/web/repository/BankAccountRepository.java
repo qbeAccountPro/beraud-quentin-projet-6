@@ -1,6 +1,6 @@
 package com.paymybuddy.web.repository;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.paymybuddy.web.model.BankAccount;
@@ -13,6 +13,6 @@ import com.paymybuddy.web.model.BankAccount;
  * BankAccount objects.
  */
 @Repository
-public interface BankAccountRepository extends CrudRepository<BankAccount, Integer>{
+public interface BankAccountRepository extends JpaRepository<BankAccount, Integer>{
   
 }

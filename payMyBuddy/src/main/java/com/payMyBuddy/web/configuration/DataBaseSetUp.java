@@ -17,7 +17,7 @@ public class DataBaseSetUp {
             connection = dataBaseConfig.getConnection();
             statement = connection.createStatement();
 
-            InputStream inputStream = DataBaseSetUp.class.getResourceAsStream("/scriptTable.sql");
+            InputStream inputStream = DataBaseSetUp.class.getResourceAsStream("/schema.sql");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder script = new StringBuilder();
             String line;
@@ -41,7 +41,7 @@ public class DataBaseSetUp {
             connection = dataBaseConfig.getConnection();
             statement = connection.createStatement();
 
-            InputStream inputStream = DataBaseSetUp.class.getResourceAsStream("/scriptData.sql");
+            InputStream inputStream = DataBaseSetUp.class.getResourceAsStream("/data.sql");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder script = new StringBuilder();
             String line;

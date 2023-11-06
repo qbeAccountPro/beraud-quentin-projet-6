@@ -20,19 +20,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "BankAccount")
+@Table(name = "bankaccount")
 public class BankAccount {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
 
-  @Column(name = "userid")
+  @Column(name = "user_id")
   private int userId;
 
-  @Column(name = "bankName")
+  @Column(name = "bank_name")
   private String bankName;
 
-  @Column(name = "iBAN")
-  private int iBAN;
+  @Column(name = "iban")
+  private int IBAN;
 }

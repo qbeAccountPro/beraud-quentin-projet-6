@@ -1,10 +1,12 @@
 package com.paymybuddy.web.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.paymybuddy.web.model.Transaction;
 import com.paymybuddy.web.model.User;
@@ -41,7 +43,7 @@ public class UserService {
    * 
    * @return an optional User.
    */
-  public Optional<User> getUserById(Integer id) {
+  public User getUserById(int id) {
     return userRepository.findById(id);
   }
 
@@ -69,22 +71,9 @@ public class UserService {
     userRepository.deleteById(user.getId());
   }
 
-  /*
-   * Some javadoc.
-   * 
-   * Update a User object.
-   * 
-   * @param user : User object to update.
-   */
-  public void updateUser(User user) {
-    Optional<User> foundUser = userRepository.findById(user.getId());
-    if (foundUser.isPresent()) {
-      addUser(user);
-    }
-  }
 
   public User getUserByUsername(String username) {
-    return userRepository.getUserByFirstname(username);
+    return userRepository.findByFirstName(username);
   }
 
   public List<User> getListUserById(List<Integer> contactsId) {
@@ -95,12 +84,24 @@ public class UserService {
     return userRepository.findUserByMail(mail);
   }
 
-  public void makeATransaction(Transaction transaction) {
-    User debitUser = getUserById(transaction.getDebitUserId()).get();
-    User creditUser = getUserById(transaction.getDebitUserId()).get();
 
-    debitUser.setBankbalance(null);
-    
+  public void makeTransaction(Transaction t) {
+    User debitUser = getUserById(t.getDebitUserId());
+    User creditUser = getUserById(t.getCreditUserId());
+
+    BigDecimal debitBankBalance = debitUser.getBankBalance();
+    BigDecimal creditBankBalance = creditUser.getBankBalance();
+
+    BigDecimal applicationMonetization = new BigDecimal(0.05); // TODO CREER CONSTANTE
+    BigDecimal fare = t.getFare();
+
+    debitBankBalance = debitBankBalance
+        .subtract(fare.add(fare.multiply(applicationMonetization)));
+
+    creditBankBalance = creditBankBalance.add(fare);
+
+    userRepository.updateBankBalance(debitUser.getId(), debitBankBalance);
+    userRepository.updateBankBalance(creditUser.getId(), creditBankBalance);
 
     // TODO CODER MAKE A TRANSACTION
   }

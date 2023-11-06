@@ -2,9 +2,9 @@ package com.paymybuddy.web.repository;
 
 import java.util.List;
 
-import org.springframework.data.jdbc.repository.query.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.paymybuddy.web.model.Transaction;
@@ -17,9 +17,8 @@ import com.paymybuddy.web.model.Transaction;
  * Transaction objects.
  */
 @Repository
-public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
+public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
-  @Query("SELECT * FROM Transaction WHERE credit_user_id = :userId OR debit_user_id = :userId")
+  @Query("SELECT c FROM Transaction c WHERE c.creditUserId = :userId OR c.debitUserId = :userId")
   List<Transaction> findTransactionByUserId(@Param("userId") int userId);
-
 }

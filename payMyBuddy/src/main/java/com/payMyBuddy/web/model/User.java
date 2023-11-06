@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,18 +26,18 @@ import lombok.NoArgsConstructor;
 @Table(name = "user")
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
 
-  @Column(name = "firstName")
-  private String firstname;
+  @Column(name = "first_name")
+  private String firstName;
 
-  @Column(name = "lastName")
-  private String lastname;
+  @Column(name = "last_name")
+  private String lastName;
 
-  @Column(name = "bankBalance")
-  private BigDecimal bankbalance;
+  @Column(name = "bank_balance")
+  private BigDecimal bankBalance;
 
   @Column(name = "mail")
   private String mail;

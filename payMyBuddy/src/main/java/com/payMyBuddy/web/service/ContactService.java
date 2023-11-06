@@ -72,10 +72,10 @@ public class ContactService {
     List<Integer> listIdContacts = new ArrayList<>();
 
     for (Contact contact : contacts) {
-      if (contact.getUser_1_id() != user.getId()) {
-        listIdContacts.add(contact.getUser_1_id());
-      } else if (contact.getUser_2_id() != user.getId()) {
-        listIdContacts.add(contact.getUser_2_id());
+      if (contact.getUser1Id() != user.getId()) {
+        listIdContacts.add(contact.getUser1Id());
+      } else if (contact.getUser2Id() != user.getId()) {
+        listIdContacts.add(contact.getUser2Id());
       }
     }
     return listIdContacts;

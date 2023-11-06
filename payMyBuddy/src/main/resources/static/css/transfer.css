@@ -50,11 +50,13 @@
   border-right: none;
 }
 
-.custom-bg-green {
+.custom-bg-green, .custom-bg-green:hover, .custom-bg-green:active  {
   background-color: rgb(92, 184, 92);
   border-color: rgb(92, 184, 92);
   color: white;
 }
+
+
 
 th {
   background-color: rgb(92, 184, 92);

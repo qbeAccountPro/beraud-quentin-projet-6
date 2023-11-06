@@ -45,7 +45,6 @@ $(document).ready(function () {
         url: "/transfer/addConnection",
         data: { mail: mail },
         success: function (response) {
-          console.log("good");
           if (response === "mail-empty") {
             $("#text-modal-add-connection").text("You need to entry an email.").show();
           } else if (response === "mail-nonexistent") {
@@ -62,7 +61,6 @@ $(document).ready(function () {
           } else {
             $("#text-modal-add-connection").text("An unknown error occurred.").show();
           }
-          console.error("feffefe");
         }
       });
     });
@@ -113,17 +111,16 @@ $(document).ready(function () {
       }
     });
 
+    $('#modal-pay').on('hidden.bs.modal', function (e) {
+      $('#modal-description').val('');
+      $('#text-modal-pay').hide();
+    });
+
     $("#submit-button-pay").click(function (event) {
       var amountValue = document.getElementById('modal-amount').value;
       var connectionValue = document.getElementById('modal-email-pay').value;
       var descriptionValue = document.getElementById('modal-description').value;
       var dateValue = document.getElementById('modal-date').value;
-      console.log(amountValue);
-      console.log(connectionValue);
-      console.log(descriptionValue);
-      console.log(dateValue);
-
-
       $.ajax({
         type: "POST",
         url: "/transfer/pay",
@@ -134,11 +131,23 @@ $(document).ready(function () {
           date: dateValue
         },
         success: function (response) {
-          if (response === "payDone") {
-
+          if (response === "errorException") {
+            $("#text-modal-pay").text("An exception occured, please retry later.").show();
+          } else if (response === "emptyDescription") {
+            $("#text-modal-pay").text("You need to entry a description.").show();
+          } else if (response === "bankBalanceInsufficient") {
+            $("#text-modal-pay").text("You sold is insufficient.").show();
+          } else if (response === "payDone") {
+            $("#text-modal-pay").text("Success payment!").show().css('background-color', 'rgb(92, 184, 92)').css('color', 'white');
+            setTimeout(function () {
+              location.reload();
+            }, 1000);
           }
         }
       });
     });
+
+
+
   });
 });

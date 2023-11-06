@@ -1,6 +1,7 @@
 package com.paymybuddy.web.model;
 
 import java.util.Date;
+import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,10 +9,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
 
 /**
  * Some javadoc.
@@ -23,10 +24,10 @@ import java.math.BigDecimal;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Transaction")
+@Table(name = "transaction")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
