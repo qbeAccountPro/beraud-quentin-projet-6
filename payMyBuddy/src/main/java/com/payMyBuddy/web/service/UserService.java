@@ -2,11 +2,9 @@ package com.paymybuddy.web.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.paymybuddy.web.model.Transaction;
 import com.paymybuddy.web.model.User;
@@ -81,7 +79,7 @@ public class UserService {
   }
 
   public User getUserByMail(String mail) {
-    return userRepository.findUserByMail(mail);
+    return userRepository.findByMail(mail);
   }
 
 
@@ -92,7 +90,7 @@ public class UserService {
     BigDecimal debitBankBalance = debitUser.getBankBalance();
     BigDecimal creditBankBalance = creditUser.getBankBalance();
 
-    BigDecimal applicationMonetization = new BigDecimal(0.05); // TODO CREER CONSTANTE
+    BigDecimal applicationMonetization = new BigDecimal(0.005); // TODO CREER CONSTANTE
     BigDecimal fare = t.getFare();
 
     debitBankBalance = debitBankBalance

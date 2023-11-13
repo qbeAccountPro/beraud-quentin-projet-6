@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.paymybuddy.web.dto.MyTransactionDto;
 import com.paymybuddy.web.model.Contact;
 import com.paymybuddy.web.model.Transaction;
 import com.paymybuddy.web.model.User;
@@ -55,10 +56,12 @@ public class TransferController {
   }
 
   @GetMapping("")
-  void loadTranfer(Model model) { // TODO AFFICHER LE SOLDE
+  void loadTranfer(Model model) {
     User user = getCurrentUser();
     model.addAttribute("contacts", getContactMails(user));
-    model.addAttribute("transactions", transactionService.getAllTransactionForAnUser(user));
+    List<MyTransactionDto> test = transactionService.getTransactionsDto(user);
+    model.addAttribute("transactions", test);
+    model.addAttribute("balance", user.getBankBalance());
   }
 
   @ResponseBody
@@ -117,7 +120,7 @@ public class TransferController {
         User creditUser = userService.getUserByMail(connection);
 
         BigDecimal bankBalance = currentUser.getBankBalance();
-        BigDecimal applicationMonetization = new BigDecimal(0.05);
+        BigDecimal applicationMonetization = new BigDecimal(0.005);
         BigDecimal amount = new BigDecimal(amountString);
         BigDecimal finalAmount = amount.add(amount.multiply(applicationMonetization));
         finalAmount = finalAmount.setScale(2, RoundingMode.HALF_UP);

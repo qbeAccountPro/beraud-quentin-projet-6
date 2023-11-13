@@ -28,7 +28,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
   List<User> findAllByIdIn(List<Integer> ids);
 
-  User findUserByMail(String mail);
+  User findByMail(String mail);
 
   @Transactional
   @Modifying

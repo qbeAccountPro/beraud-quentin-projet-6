@@ -43,6 +43,9 @@ public class Transaction {
     @Column(name = "fare")
     private BigDecimal fare;
 
+    @Column(name = "monetized_fare")
+    private BigDecimal monetizedFare;
+    
     @Column(name = "date")
     private Date date;
 }
