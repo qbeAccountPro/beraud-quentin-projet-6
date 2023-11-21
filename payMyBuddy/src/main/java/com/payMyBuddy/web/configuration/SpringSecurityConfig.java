@@ -51,7 +51,7 @@ public class SpringSecurityConfig {
             .failureUrl("/login?error=true"))
 
         .rememberMe(rememberMe -> rememberMe
-            .tokenRepository(persistentTokenRepository())
+            .tokenRepository(persistentTokenRepository())   
             .userDetailsService(userDetailsService))
 
         .formLogin(form -> form

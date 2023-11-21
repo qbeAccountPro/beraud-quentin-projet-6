@@ -3,6 +3,8 @@ package com.paymybuddy.web.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,6 +99,7 @@ public class TransactionService {
    */
   public List<MyTransactionDto> getTransactionsDto(User user) {
     List<Transaction> transactions = transactionRepository.findTransactionByUserId(user.getId());
+    Collections.sort(transactions, Comparator.comparing(Transaction::getDate).reversed());
     return convertTransactionsIntoDto(transactions, user);
   }
 
@@ -123,13 +126,13 @@ public class TransactionService {
 
   private MyTransactionDto getTransactionDataForDto(Transaction transaction, boolean creditFare) {
     MyTransactionDto myTransactionDto = new MyTransactionDto();
-    myTransactionDto.setMonetizedFare(transaction.getMonetizedFare());
     myTransactionDto.setDescription(transaction.getDescription());
     myTransactionDto.setDate(transaction.getDate());
     if (creditFare) {
       myTransactionDto.setFare(transaction.getFare());
     } else {
       myTransactionDto.setFare(transaction.getFare().negate());
+      myTransactionDto.setMonetizedFare(transaction.getMonetizedFare().negate());
     }
     return myTransactionDto;
   }

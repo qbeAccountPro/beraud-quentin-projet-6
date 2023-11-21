@@ -40,16 +40,16 @@
                 <ul class="navbar-nav text-large">
                   <!-- LINK NAV BAR -->
                   <li class="nav-item">
-                    <a class="nav-link" href="home.html">Home</a>
+                    <a class="nav-link" href="comingsoon">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="transfer.html">Transfer</a>
+                    <a class="nav-link" href="/transfer">Transfer</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="profile.html">Profile</a>
+                    <a class="nav-link" href="/profileBank">Profile</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="contact.html">Contact</a>
+                    <a class="nav-link" href="comingsoon">Contact</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/logout">Log off</a>
@@ -119,12 +119,12 @@
     </div>
     <div class="mt-5 py-2">My Transactions</div>
     <table class="w-100 table-responsive-md my-auto custom-table border border-dark" id="customTable">
-      <tr>
-        <th>Connections</th>
-        <th>Description</th>
-        <th>Amount</th>
-        <th>Monetized fare</th>
-      </tr>
+
+      <th>Connections</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Monetized fare</th>
+
       <tbody>
         <!-- Iterate through the list of transactions -->
         <tr th:each="transaction, iterStat : ${transactions}">
@@ -133,7 +133,8 @@
           <td th:text="${transaction.description}"></td>
           <td th:class="${transaction.fare lt 0} ? 'negative-value' : 'positive-value'"
             th:text="${transaction.fare + '&euro;'}"></td>
-          <td th:text="${transaction.monetizedFare + '&euro;'}"></td>
+          <td th:class="${transaction.fare lt 0} ? 'negative-value' : 'positive-value'" 
+            th:text="${transaction.monetizedFare != null ? transaction.monetizedFare + '&euro;' : ''}"></td>
         </tr>
       </tbody>
     </table>

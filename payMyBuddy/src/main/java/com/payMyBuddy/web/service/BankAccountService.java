@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.web.model.BankAccount;
+import com.paymybuddy.web.model.User;
 import com.paymybuddy.web.repository.BankAccountRepository;
 
 /**
@@ -81,5 +82,9 @@ public class BankAccountService {
     if (foundBankAccount.isPresent()) {
       addBankAccount(bankAccount);
     }
+  }
+
+  public BankAccount findBankAccountByUser(User user) {
+    return bankAccountRepository.findByuserId(user.getId());
   }
 }

@@ -14,5 +14,7 @@ import com.paymybuddy.web.model.BankAccount;
  */
 @Repository
 public interface BankAccountRepository extends JpaRepository<BankAccount, Integer>{
+
+  BankAccount findByuserId(int id);
   
 }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.web.model.Transaction;
@@ -69,7 +70,6 @@ public class UserService {
     userRepository.deleteById(user.getId());
   }
 
-
   public User getUserByUsername(String username) {
     return userRepository.findByFirstName(username);
   }
@@ -81,7 +81,6 @@ public class UserService {
   public User getUserByMail(String mail) {
     return userRepository.findByMail(mail);
   }
-
 
   public void makeTransaction(Transaction t) {
     User debitUser = getUserById(t.getDebitUserId());
@@ -100,7 +99,32 @@ public class UserService {
 
     userRepository.updateBankBalance(debitUser.getId(), debitBankBalance);
     userRepository.updateBankBalance(creditUser.getId(), creditBankBalance);
+  }
 
-    // TODO CODER MAKE A TRANSACTION
+  public ResponseEntity<String> creditUserAccount(User user, String amountPMB) {
+    try {
+      BigDecimal creditAmount = new BigDecimal(amountPMB);
+      BigDecimal userBalance = user.getBankBalance();
+      BigDecimal finalBalance = userBalance.add(creditAmount);
+      userRepository.updateBankBalance(user.getId(), finalBalance);
+      return ResponseEntity.ok("Account credited");
+    } catch (Exception e) {
+      return ResponseEntity.ok("Exception");
+    }
+  }
+
+  public ResponseEntity<String> debitUserAccount(User user, String amountBank) {
+    try {
+      BigDecimal debitAmount = new BigDecimal(amountBank);
+      BigDecimal userBalance = user.getBankBalance();
+      if (userBalance.compareTo(debitAmount) < 0) {
+        return ResponseEntity.ok("Balance insufficient");
+      }
+      BigDecimal finalBalance = userBalance.subtract(debitAmount);
+      userRepository.updateBankBalance(user.getId(), finalBalance);
+      return ResponseEntity.ok("Account debited");
+    } catch (Exception e) {
+      return ResponseEntity.ok("Exception");
+    }
   }
 }

@@ -5,7 +5,20 @@ var rows = 0;
 var currentPage = 1;
 
 
+
 $(document).ready(function () {
+
+  document.getElementById('amount').addEventListener('input', function () {
+    // Récupérer la valeur actuelle du champ de saisie
+    let inputValue = this.value;
+
+    // Limiter la saisie à deux chiffres après la virgule
+    let decimalCount = (inputValue.split('.')[1] || []).length;
+    if (decimalCount > 2) {
+      // Tronquer la valeur pour ne conserver que deux chiffres après la virgule
+      this.value = parseFloat(inputValue).toFixed(2);
+    }
+  });
 
   document.getElementById('decrement').addEventListener('click', function () {
     var amountInput = document.getElementById('amount');
@@ -18,8 +31,21 @@ $(document).ready(function () {
   document.getElementById('increment').addEventListener('click', function () {
     var amountInput = document.getElementById('amount');
     var currentValue = parseFloat(amountInput.value);
-    amountInput.value = (currentValue + 1).toFixed(2);
+    amountInput.value = Math.min((currentValue + 1), 3000).toFixed(2);
   });
+
+    // Fonction pour mettre à jour la valeur du champ en fonction des limites
+    function updateValue(inputElement, maxValue) {
+      var currentValue = parseFloat(inputElement.value);
+      if (isNaN(currentValue) || currentValue > maxValue) {
+        inputElement.value = maxValue.toFixed(2);
+      }
+    }
+  
+    // Gestionnaire d'événement pour le champ PMB
+    document.getElementById('amount').addEventListener('input', function () {
+      updateValue(this, 3000);
+    });
 
   const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
   var token = $("meta[name='_csrf']").attr("content");
@@ -147,6 +173,8 @@ $(document).ready(function () {
   console.log('totalRows:', totalRows);
   totalPages = Math.ceil(totalRows / rowsPerPage);
   rows = document.getElementById('customTable').querySelectorAll('tbody tr');
+  dataRows = document.getElementById('customTable').querySelectorAll('tbody tr');
+
 
   for (var i = 0; i < rows.length; i++) {
     if (i % 2 === 0) {
@@ -155,25 +183,29 @@ $(document).ready(function () {
       rows[i].classList.add('bg-grey');
     }
   }
-  showPage(1, rowsPerPage);
+  showPage(1);
   currentPage = 1;
   generatePaginationLinks(totalPages);
 });
 
 function showPage(pageNumber) {
-  var startIndex = (pageNumber - 1) * rowsPerPage;
-  var endIndex = startIndex + rowsPerPage;
-
+  if (pageNumber === 1) {
+    var startIndex = 0;
+    var endIndex = startIndex + rowsPerPage;
+  } else {
+    var startIndex = (pageNumber - 1) * rowsPerPage;
+    var endIndex = startIndex + rowsPerPage -1;
+  }
 
   console.log('startIndex:', startIndex);
   console.log('endIndex:', endIndex);
 
-  // Hide all rows
-  for (var i = 0; i < rows.length; i++) {
+  // Hide all data rows
+  for (var i = 1; i < rows.length; i++) {
     rows[i].style.display = 'none';
   }
 
-  // Display the rows for the current page
+  // Display the data rows for the current page
   for (var j = startIndex; j <= endIndex && j < rows.length; j++) {
     rows[j].style.display = 'table-row';
   }
