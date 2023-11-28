@@ -23,8 +23,14 @@ public interface ContactRepository extends JpaRepository<Contact, Integer> {
    * Some javadoc.
    * 
    * Get for a specific user from this id, all this contacts.
+   * 
+   * @param urserId the identifier of user.
+   * 
+   * @return a list of "contact" entity. 
    */
   @Query("SELECT c FROM Contact c WHERE c.user1Id = :userId OR c.user2Id = :userId")
   List<Contact> findContactByUserId(@Param("userId") int userId);
+
+  Contact findFirstByOrderByIdDesc();
 
 }

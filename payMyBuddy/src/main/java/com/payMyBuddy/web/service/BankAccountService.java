@@ -14,76 +14,48 @@ import com.paymybuddy.web.repository.BankAccountRepository;
  * 
  * Service class responsible for BankAccount entities.
  * This class contains business logic and serves as an intermediary between
- * controllers and repositories.
+ * controllers and repository.
  */
 @Service
 public class BankAccountService {
 
   @Autowired
-  public BankAccountRepository bankAccountRepository;
+  BankAccountRepository bankAccountRepository;
 
-  /*
+  /**
    * Some javadoc.
    * 
-   * Retrieves and returns a collection of BankAccounts.
-   */
-  public Iterable<BankAccount> getBankAccounts() {
-    return bankAccountRepository.findAll();
-  }
-
-  /*
-   * Some javadoc.
+   * Retrieves and returns a "BankAccount" entity by id.
    * 
-   * Retrieves and returns a BankAccount by id.
+   * @param id to retrieves.
    * 
-   * @param id : id to retrieves.
-   * 
-   * @return an optional BankAccount.
+   * @return an optional "BankAccount" entity.
    */
   public Optional<BankAccount> getBankAccountById(Integer id) {
     return bankAccountRepository.findById(id);
   }
 
-  /*
+  /**
    * Some javadoc.
    * 
    * Save a BankAccount object.
    * 
-   * @param bankAccount : BankAccount object to save.
+   * @param bankAccount entity to save.
    * 
-   * @return a BankAccount.
+   * @return a "BankAccount" entity saved with the corresponding identifier.
    */
   public BankAccount addBankAccount(BankAccount bankAccount) {
     return bankAccountRepository.save(bankAccount);
   }
 
-  /*
+  /**
    * Some javadoc.
    * 
-   * Delete a BankAccount object by id.
+   * Find a BankAccount object from user object.
    * 
-   * @param bankAccount : BankAccount object to delete.
-   * 
-   */
-  public void deleteBankAccount(BankAccount bankAccount) {
-    bankAccountRepository.deleteById(bankAccount.getId());
-  }
-
-  /*
-   * Some javadoc.
-   * 
-   * Update a BankAccount object.
-   * 
-   * @param bankAccount : BankAccount object to update.
+   * @param user : "user" object to find.
    * 
    */
-  public void updateBankAccount(BankAccount bankAccount) {
-    Optional<BankAccount> foundBankAccount = bankAccountRepository.findById(bankAccount.getId());
-    if (foundBankAccount.isPresent()) {
-      addBankAccount(bankAccount);
-    }
-  }
-
   public BankAccount findBankAccountByUser(User user) {
     return bankAccountRepository.findByuserId(user.getId());
   }

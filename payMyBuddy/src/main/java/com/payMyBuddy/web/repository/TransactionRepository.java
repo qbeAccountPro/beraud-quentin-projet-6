@@ -19,6 +19,15 @@ import com.paymybuddy.web.model.Transaction;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
+  /**
+   * Some javadoc.
+   * 
+   * Get for a specific user from this id, all this transactions.
+   * 
+   * @param urserId the identifier of user.
+   * 
+   * @return the list of transaction.
+   */
   @Query("SELECT c FROM Transaction c WHERE c.creditUserId = :userId OR c.debitUserId = :userId")
   List<Transaction> findTransactionByUserId(@Param("userId") int userId);
 }

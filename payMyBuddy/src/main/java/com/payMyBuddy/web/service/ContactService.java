@@ -3,6 +3,7 @@ package com.paymybuddy.web.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,50 +23,64 @@ import com.paymybuddy.web.repository.ContactRepository;
 public class ContactService {
 
   @Autowired
-  private ContactRepository contactRepository;
+  ContactRepository contactRepository;
 
-  /*
+  @Autowired
+  UserService userService;
+
+  /**
    * Some javadoc.
    * 
-   * Retrieves and returns a collection of Contacts.
+   * @return a collection of "contact" entities.
    */
   public Iterable<Contact> getContacts() {
     return contactRepository.findAll();
   }
 
-  /*
+  /**
    * Some javadoc.
    * 
    * Retrieves and returns a Contact by id.
    * 
    * @param id : id to retrieves.
    * 
-   * @return an optional Contact.
+   * @return an optional "contact" entity.
    */
   public Optional<Contact> getContactById(Integer id) {
     return contactRepository.findById(id);
   }
 
-  /*
+  /**
    * Some javadoc.
    * 
    * Save a Contact object.
    * 
-   * @param contact : Contact object to save.
+   * @param contact : "contact" entity to save.
    * 
-   * @return a Contact.
+   * @return the corresponding "contact" entity saved with identifier.
    */
   public Contact addContact(Contact contact) {
     return contactRepository.save(contact);
   }
 
-  /*
+  /**
    * Some javadoc.
    * 
-   * Get all contact for an specific user id.
+   * Delete a contact object by id.
    * 
-   * @param idUser : it's the ID of the specific user.
-   *
+   * @param contact : User object to delete.
+   */
+  public void deleteContact(Contact contact) {
+    contactRepository.deleteById(contact.getId());
+  }
+
+
+  /**
+   * Some javadoc.
+   * 
+   * Get all contact identifiers for a specific user.
+   * 
+   * @param user entity.
    */
   public List<Integer> getAllContactIdForAnUser(User user) {
     List<Contact> contacts = contactRepository.findContactByUserId(user.getId());
@@ -79,5 +94,21 @@ public class ContactService {
       }
     }
     return listIdContacts;
+  }
+
+  /**
+   * Some javadoc :
+   * 
+   * This method get all contact of a specific user.
+   * 
+   * @param user is the entity of the currently authenticated user
+   * 
+   * @return a list of each mail contact.
+   */
+  public List<String> getContactMails(User user) {
+    List<User> userContacts = userService.getListUserById(getAllContactIdForAnUser(user));
+    return userContacts.stream()
+        .map(User::getMail)
+        .collect(Collectors.toList());
   }
 }

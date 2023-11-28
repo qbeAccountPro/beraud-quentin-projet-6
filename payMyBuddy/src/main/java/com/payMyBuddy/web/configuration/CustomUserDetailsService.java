@@ -1,4 +1,4 @@
-package com.paymybuddy.web.service;
+package com.paymybuddy.web.configuration;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,11 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.paymybuddy.web.repository.UserRepository;
 
-// Your service should implement UserDetailsService
+/**
+ * Some javadoc :
+ * 
+ * This class represent the User Details Service.
+ * 
+ * It configure the information to allow the establishment of persistent token
+ * for the connection.
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-  // Inject your UserRepository or DataSource to fetch user details
   private final UserRepository userRepository;
 
   public CustomUserDetailsService(UserRepository userRepository) {
@@ -21,17 +27,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    // Fetch user details from your data source based on email
     com.paymybuddy.web.model.User user = userRepository.findByMail(email);
 
     if (user == null) {
       throw new UsernameNotFoundException("User not found with email: " + email);
     }
-
-    // Create a UserDetails object using the fetched user details
     return User.withUsername(user.getMail())
-        .password(user.getPassword()) // Use your password field
-        .roles("USER") // Set user roles if needed
+        .password(user.getPassword())
+        .roles("USER")
         .build();
   }
 }

@@ -3,15 +3,14 @@
 
 <head>
   <title>Pay My Buddy</title>
-  <!-- METADA -->
+  <!-- Metada -->
   <meta charset="UTF-8">
   <meta name="_csrf" th:content="${_csrf.token}" />
   <meta name="_csrf_header" th:content="${_csrf.headerName}" />
   <!-- CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
-  <!-- TODO ENLEVER ../STATIC pour le lancement -->
-  <link rel="stylesheet" type="text/css" href="/css/transfer.css" th:href="@{/css/transfer.css}" />
-  <!-- SCRIPTS -->
+  <link rel="stylesheet" type="text/css" href="/css/global.css" th:href="@{/css/global.css}" />
+  <!-- Scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="/scripts/transfer.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
@@ -23,12 +22,11 @@
   <header>
     <div class="container-fluid">
       <div class="mt-3 row justify-content-between">
-        <!-- TITLE PayMyBuddy -->
         <div class="col-5 ml-3 d-flex flex-column align-items-baseline">
           <h5 class="text-white rounded custom-gradient-bg px-3 py-3 text-large justify-content-center">Pay My Buddy
           </h5>
         </div>
-        <!-- NAV BAR -->
+        <!-- Nav bar -->
         <div class="col-5 d-flex flex-column align-items-end">
           <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
@@ -38,7 +36,6 @@
               </button>
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav text-large">
-                  <!-- LINK NAV BAR -->
                   <li class="nav-item">
                     <a class="nav-link" href="comingsoon">Home</a>
                   </li>
@@ -60,8 +57,8 @@
           </nav>
         </div>
       </div>
+      <!-- Fil d'Arianne -->
       <div class="container-fluid">
-        <!-- Navigation tracking OR breadcrumbs -->
         <div class="row bg-grey custom-line justify-content-between">
           <div class="col-5 d-flex flex-column align-items-baseline">
             <nav class="navbar text-large mx-2 my-2">
@@ -72,7 +69,6 @@
             </nav>
           </div>
           <div class="col-5 d-flex flex-column align-items-end">
-            <!-- Replace "User Balance: $5000.00" with the actual user balance -->
             <p class="mx-2 my-auto balance-item">Balance : <span th:text="${balance}"></span> €</p>
           </div>
         </div>
@@ -80,8 +76,6 @@
   </header>
 
   <main class="w-75 mx-auto">
-
-    <!-- Send Money & AddConnection button -->
     <div class="mt-5 row justify-content-between  ">
       <div class="col-5 d-flex flex-column align-items-baseline pt-3 ml-2">
         Send Money
@@ -94,14 +88,12 @@
     </div>
     <!-- Select a connection and send amount -->
     <div class="d-flex justify-content-around bg-grey py-4">
-      <!-- Select a connection -->
       <div>
         <select class="form-select py-auto h-100 border-secondary" aria-label="Default select example">
           <option selected>Select a connection</option>
           <option th:each="contact : ${contacts}" th:value="${contact}" th:text="${contact}"></option>
         </select>
       </div>
-      <!-- Select an amount -->
       <div class="d-flex">
         <input type="text"
           class="form-control text-center input-group-prepend border-right-0 none-roundedBorderRight border-secondary h-100"
@@ -117,23 +109,22 @@
         <button type="submit" class="btn btn-large text-large custom-bg-green h-100" id="open-modal-pay">Pay</button>
       </div>
     </div>
+
+    <!-- Iterate through the list of transactions -->
+    <!-- Display the required attributes of each transaction -->
     <div class="mt-5 py-2">My Transactions</div>
     <table class="w-100 table-responsive-md my-auto custom-table border border-dark" id="customTable">
-
       <th>Connections</th>
       <th>Description</th>
       <th>Amount</th>
       <th>Monetized fare</th>
-
       <tbody>
-        <!-- Iterate through the list of transactions -->
         <tr th:each="transaction, iterStat : ${transactions}">
-          <!-- Display the required attributes of each transaction -->
           <td th:text="${transaction.firstName + ' ' + transaction.lastName}"></td>
           <td th:text="${transaction.description}"></td>
           <td th:class="${transaction.fare lt 0} ? 'negative-value' : 'positive-value'"
             th:text="${transaction.fare + '&euro;'}"></td>
-          <td th:class="${transaction.fare lt 0} ? 'negative-value' : 'positive-value'" 
+          <td th:class="${transaction.fare lt 0} ? 'negative-value' : 'positive-value'"
             th:text="${transaction.monetizedFare != null ? transaction.monetizedFare + '&euro;' : ''}"></td>
         </tr>
       </tbody>
@@ -163,8 +154,8 @@
     </div>
   </main>
 
+  <!-- modal Add a connection -->
   <div id="modals-container">
-    <!-- modal Add a connection -->
     <div class="modal fade" id="modal-add-connection" tabindex="-1" aria-labelledby="modal-title"
       aria-hidden="${ariaHidden}">
       <div class="modal-dialog modal-dialog-centered" role="document">
@@ -216,7 +207,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <!-- Messages d'erreur -->
+            <!-- Message d'erreur -->
             <div id="text-modal-pay" class="alert alert-danger" role="alert" style="display: none;">
             </div>
             <div>

@@ -1,10 +1,8 @@
-/* TODO : check password format or creation  */
-
 INSERT INTO
-    User (
-        firstName,
-        lastName,
-        bankBalance,
+    user (
+        first_name,
+        last_name,
+        bank_balance,
         mail,
         password
     )
@@ -29,7 +27,7 @@ VALUES (
     );
 
 INSERT INTO
-    BankAccount (userId, bankName, iBAN)
+    bankAccount (user_id, bank_name, iban)
 VALUES (
         1,
         'Caisse d\'épargne',
@@ -45,33 +43,37 @@ VALUES (
     );
 
 INSERT INTO
-    Contact (user_1_Id, user_2_Id)
+    Contact (user_1_id, user_2_id)
 VALUES (1, 2), (1, 3), (2, 3);
 
 INSERT INTO
-    Transaction (
-        creditUserId,
-        debitUserId,
+    transaction (
+        credit_user_id,
+        debit_user_id,
         description,
         fare,
-        date
+        date,
+        monetized_fare
     )
 VALUES (
         1,
         2,
         'Vacances plages',
         100.50,
-        '2023-09-18'
+        '2023-09-18 10:00:00',
+        0.05
     ), (
         2,
         3,
         'Projet soudure',
         50.75,
-        '2023-09-19'
+        '2023-09-19 11:00:00',
+        0.03
     ), (
         3,
         1,
         'Réparation vélo',
         75.20,
-        '2023-09-20'
+        '2023-09-20 12:00:00',
+        0.04
     );

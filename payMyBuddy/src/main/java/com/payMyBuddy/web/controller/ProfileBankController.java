@@ -2,10 +2,6 @@ package com.paymybuddy.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,17 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.paymybuddy.web.dto.ProfilePage;
+import com.paymybuddy.web.communUtilts.DataManipulationUtils;
+import com.paymybuddy.web.dto.ProfileDto;
+import com.paymybuddy.web.logging.EndpointsLogger;
 import com.paymybuddy.web.model.BankAccount;
 import com.paymybuddy.web.model.User;
 import com.paymybuddy.web.service.BankAccountService;
-import com.paymybuddy.web.service.ContactService;
-import com.paymybuddy.web.service.ProfileBankService;
-import com.paymybuddy.web.service.TransactionService;
+import com.paymybuddy.web.service.ProfileService;
 import com.paymybuddy.web.service.UserService;
 
 import jakarta.transaction.Transactional;
 
+/**
+ * Some javadoc :
+ * 
+ * This class represent the controller of profile bank.
+ */
 @Controller
 @RequestMapping("/profileBank")
 public class ProfileBankController {
@@ -33,60 +34,74 @@ public class ProfileBankController {
   UserService userService;
 
   @Autowired
-  ContactService contactService;
-
-  @Autowired
   BankAccountService bankAccountService;
 
   @Autowired
-  TransactionService transactionService;
+  ProfileService profileBankService;
 
-  @Autowired
-  ProfileBankService profileBankService;
+  EndpointsLogger log = new EndpointsLogger();
 
+  /**
+   * Some javadoc :
+   * 
+   * This method represent the mapping of profileBank.
+   * It will get the information on user like a bank information and balance.
+   * 
+   * @param model hold information from or for HTML page.
+   * 
+   * @return the profile bank page.
+   */
   @GetMapping("")
   String getProfile(Model model) {
-    User user = getCurrentUser();
+    User user = userService.getCurrentUser();
     BankAccount bankAccount = bankAccountService.findBankAccountByUser(user);
-    ProfilePage profilePage = profileBankService.getProfilePage(user, bankAccount);
-    model.addAttribute("profilePage", profilePage);
+    ProfileDto profile = profileBankService.getProfile(user, bankAccount);
+    model.addAttribute("profilePage", profile);
     return "profileBank";
   }
 
-  User getCurrentUser() { // TODO : a dédoubler car présent dans profile bank
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (authentication.getPrincipal() instanceof UserDetails) {
-      UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-      String mail = userDetails.getUsername();
-      return userService.getUserByMail(mail);
-    } else if (authentication.getPrincipal() instanceof OAuth2User) {
-      OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
-      String email = oauth2User.getAttribute("email");
-      if (email != null) {
-        User user = userService.getUserByMail(email);
-        return user;
-      }
-      return null;
-    } else {
-      // TODO : Gérer le cas où l'adresse e-mail n'est pas disponible dans les
-      // attributs OAuth2
-      return null;
-    }
-  }
-
+  /**
+   * Some javadoc :
+   * 
+   * This method represent the mapping of creditAccount.
+   * It will credit the currently authenticated user.
+   * 
+   * @param amountPBM represent the amount to credit on PayMyBuddy account.
+   * @param model     hold information from or for HTML page.
+   * 
+   * @return responseEntity contain the message to confirm or not the
+   *         transaction.
+   */
   @ResponseBody
   @Transactional
   @PostMapping("/creditAccount")
   public ResponseEntity<String> creditAccount(@RequestParam("amountPMB") String amountPMB, Model model) {
-    User user = getCurrentUser();
-    return userService.creditUserAccount(user, amountPMB);// TODO
+    String methodeName = DataManipulationUtils.getCurrentMethodName();
+    User user = userService.getCurrentUser();
+    log.request(methodeName, amountPMB, user);
+    return userService.creditUserAccount(user, amountPMB, methodeName);
   }
 
+  /**
+   * Some javadoc :
+   * 
+   * This method represent the mapping of debitAccount.
+   * It will debit the currently authenticated user
+   * 
+   * @param amountBank represent the amount to debit from PayMyBuddy account to
+   *                   Bank.
+   * @param model      hold information from or for HTML page.
+   * 
+   * @return responseEntity contain the message to confirm or not the
+   *         transaction.
+   */
   @ResponseBody
   @Transactional
   @PostMapping("/debitAccount")
   public ResponseEntity<String> debitAccount(@RequestParam("amountBank") String amountBank, Model model) {
-    User user = getCurrentUser();
-    return userService.debitUserAccount(user, amountBank);// TODO
+    String methodeName = DataManipulationUtils.getCurrentMethodName();
+    User user = userService.getCurrentUser();
+    log.request(methodeName, amountBank, user);
+    return userService.debitUserAccount(user, amountBank, methodeName);
   }
 }

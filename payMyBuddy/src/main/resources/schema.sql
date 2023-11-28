@@ -1,5 +1,5 @@
 CREATE TABLE
-    User (
+    user (
         id INT PRIMARY KEY AUTO_INCREMENT,
         first_name VARCHAR(30),
         last_name VARCHAR(30),
@@ -9,32 +9,40 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    BankAccount (
+    bankAccount (
         id INT PRIMARY KEY AUTO_INCREMENT,
-        user_id INT,
+        user_id INT NOT NULL,
         bank_name VARCHAR(50),
         iban VARCHAR(34),
-        FOREIGN KEY (userId) REFERENCES User(id)
+        FOREIGN KEY (user_id) REFERENCES user(id)
     );
 
 CREATE TABLE
-    Contact (
+    contact (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_1_id INT NOT NULL,
         user_2_id INT NOT NULL,
-        FOREIGN KEY (user_1_Id) REFERENCES User(id),
-        FOREIGN KEY (user_2_Id) REFERENCES User(id)
+        FOREIGN KEY (user_1_Id) REFERENCES user(id),
+        FOREIGN KEY (user_2_Id) REFERENCES user(id)
     );
 
-
 CREATE TABLE
-    Transaction (
+    transaction (
         id INT PRIMARY KEY AUTO_INCREMENT,
-        credit_user_id INT,
-        debit_user_id INT,
+        credit_user_id INT NOT NULL,
+        debit_user_id INT NOT NULL,
         description VARCHAR(100),
         fare FLOAT,
-        date DATE,
-        FOREIGN KEY (creditUserId) REFERENCES User(id),
-        FOREIGN KEY (debitUserId) REFERENCES User(id)
+        date DATETIME,
+        monetized_fare FLOAT,
+        FOREIGN KEY (credit_user_id) REFERENCES user(id),
+        FOREIGN KEY (debit_user_id) REFERENCES user(id)
+    );
+
+CREATE TABLE
+    persistent_logins (
+        username VARCHAR(255) NOT NULL,
+        series VARCHAR(64) KEY,
+        token VARCHAR(64) NOT NULL,
+        last_used TIMESTAMP
     );

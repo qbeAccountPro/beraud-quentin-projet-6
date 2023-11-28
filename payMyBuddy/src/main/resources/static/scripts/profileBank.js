@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+  // Retrieve CSRF token from cookies and set it as a header for AJAX requests :
   const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
   var token = $("meta[name='_csrf']").attr("content");
   var header = $("meta[name='_csrf_header']").attr("content");
@@ -7,18 +8,17 @@ $(document).ready(function () {
     xhr.setRequestHeader(header, token);
   });
 
-  document.getElementById('amountPMB').addEventListener('input', function () {
-    // Récupérer la valeur actuelle du champ de saisie
-    let inputValue = this.value;
 
-    // Limiter la saisie à deux chiffres après la virgule
+  // Limit decimal places to 2 for the input field with id 'amountPMB' :
+  document.getElementById('amountPMB').addEventListener('input', function () {
+    let inputValue = this.value;
     let decimalCount = (inputValue.split('.')[1] || []).length;
     if (decimalCount > 2) {
-      // Tronquer la valeur pour ne conserver que deux chiffres après la virgule
       this.value = parseFloat(inputValue).toFixed(2);
     }
   });
 
+  // Decrease the value in 'amountPMB' input field by 1 (minimum value 0) :
   document.getElementById('decrementPMB').addEventListener('click', function () {
     var amountInput = document.getElementById('amountPMB');
     var currentValue = parseFloat(amountInput.value);
@@ -27,24 +27,23 @@ $(document).ready(function () {
     }
   });
 
+  // Increase the value in 'amountPMB' input field by 1 (maximum value 3000) :
   document.getElementById('incrementPMB').addEventListener('click', function () {
     var amountInput = document.getElementById('amountPMB');
     var currentValue = parseFloat(amountInput.value);
     amountInput.value = Math.min((currentValue + 1), 3000).toFixed(2);
   });
 
+  // Limit decimal places to 2 for the input field with id 'amountBank' :
   document.getElementById('amountBank').addEventListener('input', function () {
-    // Récupérer la valeur actuelle du champ de saisie
     let inputValue = this.value;
-
-    // Limiter la saisie à deux chiffres après la virgule
     let decimalCount = (inputValue.split('.')[1] || []).length;
     if (decimalCount > 2) {
-        // Tronquer la valeur pour ne conserver que deux chiffres après la virgule
-        this.value = parseFloat(inputValue).toFixed(2);
+      this.value = parseFloat(inputValue).toFixed(2);
     }
-});
+  });
 
+  // Decrease the value in 'amountBank' input field by 1 (minimum value 0) :
   document.getElementById('decrementBank').addEventListener('click', function () {
     var amountInput = document.getElementById('amountBank');
     var currentValue = parseFloat(amountInput.value);
@@ -53,13 +52,15 @@ $(document).ready(function () {
     }
   });
 
+  // Increase the value in 'amountPMB' input field by 1 (maximum value 3000) :
   document.getElementById('incrementBank').addEventListener('click', function () {
     var amountInput = document.getElementById('amountBank');
     var currentValue = parseFloat(amountInput.value);
     amountInput.value = Math.min((currentValue + 1), 3000).toFixed(2);
   });
 
-  // Fonction pour mettre à jour la valeur du champ en fonction des limites
+
+  // Common function to update input values with a maximum limit of 3000 :
   function updateValue(inputElement, maxValue) {
     var currentValue = parseFloat(inputElement.value);
     if (isNaN(currentValue) || currentValue > maxValue) {
@@ -67,19 +68,18 @@ $(document).ready(function () {
     }
   }
 
-  // Gestionnaire d'événement pour le champ PMB
+  // Common function to update input values with a maximum limit of 3000 :
   document.getElementById('amountPMB').addEventListener('input', function () {
     updateValue(this, 3000);
   });
 
-  // Gestionnaire d'événement pour le champ Bank
   document.getElementById('amountBank').addEventListener('input', function () {
     updateValue(this, 3000);
   });
 
+  // AJAX request to credit the PMB account :
   $("#sendPMB").click(function (event) {
     var amountPMB = $("#amountPMB").val();
-
     $.ajax({
       type: "POST",
       url: "/profileBank/creditAccount",
@@ -97,6 +97,7 @@ $(document).ready(function () {
     });
   });
 
+  // AJAX request to debit the Bank account :
   $("#sendBank").click(function (event) {
     var amountBank = $("#amountBank").val();
 
@@ -110,7 +111,7 @@ $(document).ready(function () {
           setTimeout(function () {
             location.reload();
           }, 1000);
-        } else if (response === "Balance insufficient") {
+        } else if (response === "bankBalanceInsufficient") {
           $("#profileBank-message").text("Your Balance is insufficient.").show();
         } else {
           $("#profileBank-message").text("Our application is encountering an exception, please try again later.").show();
@@ -121,6 +122,3 @@ $(document).ready(function () {
 
 
 });
-
-
-

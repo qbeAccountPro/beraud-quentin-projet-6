@@ -9,9 +9,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Some javadoc :
+ * 
+ * This class represent the controller of logout.
+ */
 @Controller
 public class LogoutController {
 
+  /**
+   * Some javadoc :
+   * 
+   * This method represent the mapping of logout.
+   * 
+   * @param request  the HTTP servlet request
+   * @param response the HTTP servlet response
+   * 
+   * @return the login page from logout.
+   */
   @RequestMapping("/logout")
   public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
