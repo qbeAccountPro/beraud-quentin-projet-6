@@ -21,7 +21,7 @@ public class ResponseBuilder {
    * @return ResponseEntity : "mail-empty".
    */
   public ResponseEntity<String> emptyMail() {
-    return ResponseEntity.status(HttpStatus.OK).body("mail-empty");
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("mail-empty");
   }
 
   /**
@@ -30,7 +30,7 @@ public class ResponseBuilder {
    * @return non existent mail in the database.
    */
   public ResponseEntity<String> nonexistentMail() {
-    return ResponseEntity.status(HttpStatus.OK).body("mail-nonexistent");
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("mail-nonexistent");
   }
 
   /**
@@ -39,7 +39,7 @@ public class ResponseBuilder {
    * @return current user mail try to be added.
    */
   public ResponseEntity<String> currentUserMail() {
-    return ResponseEntity.status(HttpStatus.OK).body("mail-FromCurrentUser");
+    return ResponseEntity.status(HttpStatus.CONFLICT).body("mail-FromCurrentUser");
   }
 
   /**
@@ -48,7 +48,7 @@ public class ResponseBuilder {
    * @return mail come from actual contact list try to be added.
    */
   public ResponseEntity<String> existingContactMail() {
-    return ResponseEntity.status(HttpStatus.OK).body("mail-FromContactList");
+    return ResponseEntity.status(HttpStatus.CONFLICT).body("mail-FromContactList");
   }
 
   /**
@@ -66,7 +66,7 @@ public class ResponseBuilder {
    * @return insufficient bank banalnce.
    */
   public ResponseEntity<String> insufficientBankBalance() {
-    return ResponseEntity.status(HttpStatus.OK).body("bankBalanceInsufficient");
+    return ResponseEntity.status(HttpStatus.CONFLICT).body("bankBalanceInsufficient");
   }
 
   /**
@@ -84,7 +84,7 @@ public class ResponseBuilder {
    * @return empty description.
    */
   public ResponseEntity<String> emptyDescription() {
-    return ResponseEntity.status(HttpStatus.OK).body("emptyDescription");
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("emptyDescription");
   }
 
   /**
@@ -111,6 +111,6 @@ public class ResponseBuilder {
    * @return the method throw an exception.
    */
   public ResponseEntity<String> throwAnException() {
-    return ResponseEntity.status(HttpStatus.OK).body("Exception");
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception");
   }
 }

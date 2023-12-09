@@ -93,6 +93,11 @@ $(document).ready(function () {
         } else {
           $("#profileBank-message").text("Our application is encountering an exception, please try again later.").show();
         }
+      },
+      error: function (response) {
+        {
+          $("#profileBank-message").text("Our application is encountering an exception, please try again later.").show();
+        }
       }
     });
   });
@@ -111,7 +116,13 @@ $(document).ready(function () {
           setTimeout(function () {
             location.reload();
           }, 1000);
-        } else if (response === "bankBalanceInsufficient") {
+        } else {
+          $("#profileBank-message").text("Our application is encountering an exception, please try again later.").show();
+        }
+      },
+      error: function (response) {
+        var responseText = response.responseText;
+        if (responseText === "bankBalanceInsufficient") {
           $("#profileBank-message").text("Your Balance is insufficient.").show();
         } else {
           $("#profileBank-message").text("Our application is encountering an exception, please try again later.").show();

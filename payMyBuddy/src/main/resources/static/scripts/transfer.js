@@ -67,19 +67,26 @@ $(document).ready(function () {
       url: "/transfer/addConnection",
       data: { mail: mail },
       success: function (response) {
-        if (response === "mail-empty") {
-          $("#text-modal-add-connection").text("You need to entry an email.").show();
-        } else if (response === "mail-nonexistent") {
-          $("#text-modal-add-connection").text("This email does not exist.").show();
-        } else if (response === "mail-FromCurrentUser") {
-          $("#text-modal-add-connection").text("This email belongs to the current user.").show();
-        } else if (response === "mail-FromContactList") {
-          $("#text-modal-add-connection").text("This email is already in your contacts.").show();
-        } else if (response === "mail-Added") {
+        if (response === "mail-Added") {
           $("#text-modal-add-connection").text("Success added email!").show().css('background-color', 'rgb(92, 184, 92)').css('color', 'white');
           setTimeout(function () {
             location.reload();
           }, 1000);
+        } else {
+          $("#text-modal-add-connection").text("An unknown error occurred.").show();
+        }
+      },
+      error: function (response) {
+        var responseText = response.responseText;
+        console.log(responseText);
+        if (responseText === "mail-empty") {
+          $("#text-modal-add-connection").text("You need to entry an email.").show();
+        } else if (responseText === "mail-nonexistent") {
+          $("#text-modal-add-connection").text("This email does not exist.").show();
+        } else if (responseText === "mail-FromCurrentUser") {
+          $("#text-modal-add-connection").text("This email belongs to the current user.").show();
+        } else if (responseText === "mail-FromContactList") {
+          $("#text-modal-add-connection").text("This email is already in your contacts.").show();
         } else {
           $("#text-modal-add-connection").text("An unknown error occurred.").show();
         }
@@ -145,17 +152,23 @@ $(document).ready(function () {
         date: dateValue
       },
       success: function (response) {
-        if (response === "errorException") {
-          $("#text-modal-pay").text("An exception occured, please retry later.").show();
-        } else if (response === "emptyDescription") {
-          $("#text-modal-pay").text("You need to entry a description.").show();
-        } else if (response === "bankBalanceInsufficient") {
-          $("#text-modal-pay").text("You sold is insufficient.").show();
-        } else if (response === "payDone") {
+        if (response ==="payDone") {
           $("#text-modal-pay").text("Success payment!").show().css('background-color', 'rgb(92, 184, 92)').css('color', 'white');
           setTimeout(function () {
             location.reload();
           }, 1000);
+        } else {
+          $("#text-modal-pay").text("An exception occured, please retry later.").show();
+        }
+      },
+      error: function (response) {
+        var responseText = response.responseText;
+        if (responseText === "errorException") {
+          $("#text-modal-pay").text("An exception occured, please retry later.").show();
+        } else if (responseText === "emptyDescription") {
+          $("#text-modal-pay").text("You need to entry a description.").show();
+        } else if (responseText === "bankBalanceInsufficient") {
+          $("#text-modal-pay").text("You sold is insufficient.").show();
         }
       }
     });

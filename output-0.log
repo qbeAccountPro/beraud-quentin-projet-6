@@ -1,0 +1,108 @@
+2023-12-09 16:43:53 [http-nio-8080-exec-6] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : makeTransaction with this arguments : 2023-12-9 16:43:50 & 2800 & jane.smith@gmail.com & Sport - Foot avec lec copains .
+2023-12-09 16:43:53 [http-nio-8080-exec-6] com.paymybuddy.web.logging.EndpointsLogger.insufficientBankBalance()
+INFO: Answer : makeTransaction, insufficient bank balance.
+2023-12-09 16:44:22 [http-nio-8080-exec-8] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : makeTransaction with this arguments : 2023-12-9 16:44:19 & 2800 & jane.smith@gmail.com & Sport - Foot avec lec copains .
+2023-12-09 16:44:22 [http-nio-8080-exec-8] com.paymybuddy.web.logging.EndpointsLogger.insufficientBankBalance()
+INFO: Answer : makeTransaction, insufficient bank balance.
+2023-12-09 16:52:48 [http-nio-8080-exec-7] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : makeTransaction with this arguments : 2023-12-9 16:52:46 & 2800 & jane.smith@gmail.com & fe.
+2023-12-09 16:52:48 [http-nio-8080-exec-7] com.paymybuddy.web.logging.EndpointsLogger.insufficientBankBalance()
+INFO: Answer : makeTransaction, insufficient bank balance.
+2023-12-09 16:53:24 [http-nio-8080-exec-1] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : addConnection with this argument : john.doe@gmail.com.
+2023-12-09 16:53:24 [http-nio-8080-exec-1] com.paymybuddy.web.logging.EndpointsLogger.currentUserMail()
+INFO: Answer : addConnection, mail is from current user : john.doe@gmail.com.
+2023-12-09 17:00:04 [http-nio-8080-exec-7] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : addConnection with this argument : email1@example.com.
+2023-12-09 17:00:04 [http-nio-8080-exec-7] com.paymybuddy.web.logging.EndpointsLogger.nonexistentMail()
+INFO: Answer : addConnection, mail doesn't exist in the database : email1@example.com.
+2023-12-09 17:02:03 [http-nio-8080-exec-9] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : addConnection with this argument : email1@example.com.
+2023-12-09 17:02:23 [http-nio-8080-exec-9] com.paymybuddy.web.logging.EndpointsLogger.nonexistentMail()
+INFO: Answer : addConnection, mail doesn't exist in the database : email1@example.com.
+2023-12-09 17:05:58 [http-nio-8080-exec-8] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : addConnection with this argument : email1@example.com.
+2023-12-09 17:05:58 [http-nio-8080-exec-8] com.paymybuddy.web.logging.EndpointsLogger.nonexistentMail()
+INFO: Answer : addConnection, mail doesn't exist in the database : email1@example.com.
+2023-12-09 17:07:39 [http-nio-8080-exec-7] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : addConnection with this argument : email1@example.com.
+2023-12-09 17:07:39 [http-nio-8080-exec-7] com.paymybuddy.web.logging.EndpointsLogger.nonexistentMail()
+INFO: Answer : addConnection, mail doesn't exist in the database : email1@example.com.
+2023-12-09 17:10:14 [http-nio-8080-exec-7] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : addConnection with this argument : email1@example.com.
+2023-12-09 17:10:14 [http-nio-8080-exec-7] com.paymybuddy.web.logging.EndpointsLogger.nonexistentMail()
+INFO: Answer : addConnection, mail doesn't exist in the database : email1@example.com.
+2023-12-09 17:10:20 [http-nio-8080-exec-8] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : addConnection with this argument : john.doe@gmail.com.
+2023-12-09 17:10:20 [http-nio-8080-exec-8] com.paymybuddy.web.logging.EndpointsLogger.currentUserMail()
+INFO: Answer : addConnection, mail is from current user : john.doe@gmail.com.
+2023-12-09 17:10:28 [http-nio-8080-exec-9] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : makeTransaction with this arguments : 2023-12-9 17:10:25 & 2800 & jane.smith@gmail.com & dz.
+2023-12-09 17:10:28 [http-nio-8080-exec-9] com.paymybuddy.web.logging.EndpointsLogger.insufficientBankBalance()
+INFO: Answer : makeTransaction, insufficient bank balance.
+2023-12-09 17:10:40 [http-nio-8080-exec-8] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : creditAccount with this argument : 100 and user email :john.doe@gmail.com.
+2023-12-09 17:10:40 [http-nio-8080-exec-8] com.paymybuddy.web.logging.EndpointsLogger.accountCredited()
+INFO: Answer : creditAccount, account credited.
+2023-12-09 17:10:46 [http-nio-8080-exec-9] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : debitAccount with this argument : 200 and user email :john.doe@gmail.com.
+2023-12-09 17:10:46 [http-nio-8080-exec-9] com.paymybuddy.web.logging.EndpointsLogger.accountDebited()
+INFO: Answer : debitAccount, account debited.
+2023-12-09 17:10:47 [http-nio-8080-exec-10] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : debitAccount with this argument : 200 and user email :john.doe@gmail.com.
+2023-12-09 17:10:47 [http-nio-8080-exec-10] com.paymybuddy.web.logging.EndpointsLogger.accountDebited()
+INFO: Answer : debitAccount, account debited.
+2023-12-09 17:11:03 [http-nio-8080-exec-2] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : creditAccount with this argument : 100 and user email :john.doe@gmail.com.
+2023-12-09 17:11:03 [http-nio-8080-exec-2] com.paymybuddy.web.logging.EndpointsLogger.accountCredited()
+INFO: Answer : creditAccount, account credited.
+2023-12-09 17:11:04 [http-nio-8080-exec-4] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : debitAccount with this argument : 200 and user email :john.doe@gmail.com.
+2023-12-09 17:11:04 [http-nio-8080-exec-4] com.paymybuddy.web.logging.EndpointsLogger.accountDebited()
+INFO: Answer : debitAccount, account debited.
+2023-12-09 17:13:58 [http-nio-8080-exec-9] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : creditAccount with this argument : 100 and user email :john.doe@gmail.com.
+2023-12-09 17:13:58 [http-nio-8080-exec-9] com.paymybuddy.web.logging.EndpointsLogger.accountCredited()
+INFO: Answer : creditAccount, account credited.
+2023-12-09 17:14:12 [http-nio-8080-exec-6] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : creditAccount with this argument : 100 and user email :john.doe@gmail.com.
+2023-12-09 17:14:12 [http-nio-8080-exec-6] com.paymybuddy.web.logging.EndpointsLogger.accountCredited()
+INFO: Answer : creditAccount, account credited.
+2023-12-09 17:14:17 [http-nio-8080-exec-9] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : debitAccount with this argument : 100 and user email :john.doe@gmail.com.
+2023-12-09 17:14:17 [http-nio-8080-exec-9] com.paymybuddy.web.logging.EndpointsLogger.accountDebited()
+INFO: Answer : debitAccount, account debited.
+2023-12-09 17:16:06 [http-nio-8080-exec-2] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : creditAccount with this argument : 50 and user email :john.doe@gmail.com.
+2023-12-09 17:16:06 [http-nio-8080-exec-2] com.paymybuddy.web.logging.EndpointsLogger.accountCredited()
+INFO: Answer : creditAccount, account credited.
+2023-12-09 17:16:16 [http-nio-8080-exec-4] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : creditAccount with this argument : 50 and user email :john.doe@gmail.com.
+2023-12-09 17:16:16 [http-nio-8080-exec-4] com.paymybuddy.web.logging.EndpointsLogger.accountCredited()
+INFO: Answer : creditAccount, account credited.
+2023-12-09 17:16:57 [http-nio-8080-exec-5] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : creditAccount with this argument : 50 and user email :john.doe@gmail.com.
+2023-12-09 17:16:57 [http-nio-8080-exec-5] com.paymybuddy.web.logging.EndpointsLogger.accountCredited()
+INFO: Answer : creditAccount, account credited.
+2023-12-09 17:20:06 [http-nio-8080-exec-10] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : creditAccount with this argument : 50 and user email :john.doe@gmail.com.
+2023-12-09 17:20:06 [http-nio-8080-exec-10] com.paymybuddy.web.logging.EndpointsLogger.accountCredited()
+INFO: Answer : creditAccount, account credited.
+2023-12-09 17:20:10 [http-nio-8080-exec-3] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : debitAccount with this argument : 50 and user email :john.doe@gmail.com.
+2023-12-09 17:20:10 [http-nio-8080-exec-3] com.paymybuddy.web.logging.EndpointsLogger.accountDebited()
+INFO: Answer : debitAccount, account debited.
+2023-12-09 17:20:22 [http-nio-8080-exec-1] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : makeTransaction with this arguments : 2023-12-9 17:20:19 & 2500 & jane.smith@gmail.com & Adadad.
+2023-12-09 17:20:22 [http-nio-8080-exec-1] com.paymybuddy.web.logging.EndpointsLogger.insufficientBankBalance()
+INFO: Answer : makeTransaction, insufficient bank balance.
+2023-12-09 17:20:27 [http-nio-8080-exec-2] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : makeTransaction with this arguments : 2023-12-9 17:20:25 & 20 & jane.smith@gmail.com & Adadad.
+2023-12-09 17:20:27 [http-nio-8080-exec-2] com.paymybuddy.web.logging.EndpointsLogger.paymentDone()
+INFO: Answer : makeTransaction, payement done.
+2023-12-09 17:20:35 [http-nio-8080-exec-7] com.paymybuddy.web.logging.EndpointsLogger.request()
+INFO: Request : addConnection with this argument : email1@example.com.
+2023-12-09 17:20:35 [http-nio-8080-exec-7] com.paymybuddy.web.logging.EndpointsLogger.nonexistentMail()
+INFO: Answer : addConnection, mail doesn't exist in the database : email1@example.com.

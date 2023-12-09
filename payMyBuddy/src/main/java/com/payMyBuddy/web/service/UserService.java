@@ -154,7 +154,6 @@ public class UserService {
       BigDecimal userBalance = user.getBankBalance();
       BigDecimal finalBalance = userBalance.add(creditAmount);
       userRepository.updateBankBalance(user.getId(), finalBalance);
-
       return log.accountCredited(methodName);
     } catch (Exception e) {
       return log.throwAnException(methodName);
