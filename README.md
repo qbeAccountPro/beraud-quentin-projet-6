@@ -19,8 +19,7 @@ Mail : john.doe@gmail.com.
 	Password : john.doe 
 
 ### Application properties :
-They are two application properties.
-One dedicace to prod and one another to testing.
+They are two application properties, one dedicace to prod and one another to testing :
 
 [Application.properties](https://github.com/qbeAccountPro/beraud-quentin-projet-6/blob/main/payMyBuddy/src/main/resources/application.properties)
 
