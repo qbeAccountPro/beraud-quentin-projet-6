@@ -6,7 +6,7 @@ import org.tinylog.Logger;
 import com.paymybuddy.web.httpResponse.ResponseBuilder;
 import com.paymybuddy.web.model.User;
 
-/* 
+/**
  * Some javadoc.
  * 
  * This class represent all log generated during the endpoint request.

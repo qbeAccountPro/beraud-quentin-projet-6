@@ -57,7 +57,7 @@ public class TransferController {
    * @param model hold information for transfer page.
    */
   @GetMapping("")
-  String loadTranfer(Model model) {
+  String loadTransfer(Model model) {
     User user = userService.getCurrentUser();
     if (user != null) {
       List<MyTransactionDto> allTransactionDto = transactionService.getTransactionsDto(user);
@@ -68,11 +68,11 @@ public class TransferController {
     } else {
       return "error";
     }
-  }
+  }                                         
 
   /**
    * Some javadoc :
-   * 
+   *                                                                          
    * This method represent the addConnection mapping.
    * It will check if the new connection doesn't exist.
    * If the mail exist into the database.
@@ -82,7 +82,7 @@ public class TransferController {
    * @return responseEntity contain the message to confirm or not the
    *         added connection.
    */
-  @ResponseBody
+  @ResponseBody                                                                                       
   @PostMapping("/addConnection")
   public ResponseEntity<String> addConnection(@RequestParam("mail") String mail, Model model) {
     String methodeName = DataManipulationUtils.getCurrentMethodName();

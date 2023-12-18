@@ -251,7 +251,7 @@ public class UserService {
           return log.currentUserMail(methodName, mail);
         } else {
           List<Integer> userContacts = contactService.getAllContactIdForAnUser(user);
-          Boolean emailFromContact = userContacts.contains(contact.getId());
+          boolean emailFromContact = userContacts.contains(contact.getId());
           if (emailFromContact) {
             return log.existingContactMail(methodName, mail);
           } else {

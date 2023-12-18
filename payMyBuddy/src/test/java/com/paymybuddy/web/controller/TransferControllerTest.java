@@ -68,7 +68,7 @@ public class TransferControllerTest {
     when(transactionServiceMock.getTransactionsDto(user)).thenReturn(allTransactionDto);
 
     // Act
-    String actualResult = transferController.loadTranfer(modelMock);
+    String actualResult = transferController.loadTransfer(modelMock);
     // Assert
     String expectedResult = "transfer";
     assertEquals(expectedResult, actualResult);
@@ -79,7 +79,7 @@ public class TransferControllerTest {
     // Arrange
     when(userServiceMock.getCurrentUser()).thenReturn(null);
     // Act
-    String actualResult = transferController.loadTranfer(modelMock);
+    String actualResult = transferController.loadTransfer(modelMock);
     // Assert
     String expectedResult = "error";
     assertEquals(expectedResult, actualResult);
