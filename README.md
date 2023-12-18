@@ -21,7 +21,9 @@ Mail : john.doe@gmail.com.
 ### Application properties :
 They are two application properties.
 One dedicace to prod and one another to testing.
+
 [Application.properties](https://github.com/qbeAccountPro/beraud-quentin-projet-6/blob/main/payMyBuddy/src/main/resources/application.properties)
+
 [Application-test.properties](https://github.com/qbeAccountPro/beraud-quentin-projet-6/blob/main/payMyBuddy/src/main/resources/application-test.properties)
 
 ### Diagramme de classe - Link :
