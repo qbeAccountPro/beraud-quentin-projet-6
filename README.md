@@ -7,15 +7,16 @@ This application facilitate the transfer of money between buddy.
 ### Password for UI testing :
 Each password in UI testing is the "Name" + "." + "Surname".
 
-#### Exemple : 
-Name : John
-Surname : Doe
-Mail : john.doe@gmail.com
-ect...
+#### Exemple - Data : 
+Name : John.
+Surname : Doe.
+Mail : john.doe@gmail.com.
 
-#### Connexion :
+  Connexion :
+
 	Username : john.doe@gmail.com
-	Password : john.doe 			=> **Name**.**Surname**
+	Password : john.doe 
+	Password explication : **Name**.**Surname**
 
 ### Application properties :
 They are two application properties. One dedicace to prod and one another to testing.
